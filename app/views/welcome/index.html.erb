@@ -1,2 +1,38 @@
+<% content_for :head do %>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+<% end %>
+
 <h1>Welcome#index</h1>
 <p>Find me in app/views/welcome/index.html.erb</p>
+<table id="tickets-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Creado</th>
+      <th>Actualizado</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/dist/app' %>
+<% end %>
