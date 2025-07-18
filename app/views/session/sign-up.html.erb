@@ -1,0 +1,104 @@
+<% content_for :head do %>
+  <style> 
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .container-fluid {
+      height: 100%;
+    }
+    .row {
+      height: 100%;
+    }
+  </style>
+<% end %>
+
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <!-- Lado izquierdo: Imagen o color -->
+    <div class="col-md-6 d-none d-md-block bg-secondary"></div>
+
+    <!-- Lado derecho: Formulario -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="w-50">
+        <h2 class="mb-4">Crear Cuenta</h2>
+
+        <form action="/sign-up" method="post" class="needs-validation" id="sign-up-form" novalidate>
+          <div class="mb-3">
+            <label for="student_code" class="form-label">Código de Alumno</label>
+            <input type="text" class="form-control" id="student_code" name="student_code" required>
+            <div class="invalid-feedback">Por favor, ingresa tu código de alumno.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" value="" placeholder="Su correo se autocompletará" disabled>
+          </div>
+
+          <div class="mb-3">
+            <label for="password1" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password1" name="password1" required>
+            <div class="invalid-feedback">Por favor, ingresa una contraseña.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password2" class="form-label">Repetir Contraseña</label>
+            <input type="password" class="form-control" id="password2" name="password2" required>
+            <div class="invalid-feedback">Repite la contraseña correctamente.</div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="terms">
+            <label class="form-check-label" for="terms">
+              Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">términos y condiciones</a>.
+            </label>
+          </div>
+
+          <div class="d-grid gap-2 mb-3">
+            <button type="submit" class="btn btn-primary" id="create-account-btn">Crear Cuenta</button>
+          </div>
+
+          <div class="text-center">
+            <a href="/sign-in" class="d-block mb-2">¿Ya tienes cuenta? Iniciar Sesión</a>
+            <a href="/reset-password" class="d-block">Recuperar contraseña</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Términos y Condiciones -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Términos y Condiciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Aquí iría el texto legal o los términos de uso de la incubadora de startups.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="accept-terms-btn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const checkbox = document.getElementById('terms');
+      const btn = document.getElementById('create-account-btn');
+      const acceptBtn = document.getElementById('accept-terms-btn');
+
+      acceptBtn.addEventListener('click', () => {
+        //checkbox.checked = true;
+        checkbox.disabled = false;
+        btn.disabled = false;
+      });
+    });
+  </script>
+<% end %>

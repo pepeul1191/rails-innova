@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  # session
+  get "/sign-in", to: "session#sign_in"
+  get "/sign-up", to: "session#sign_up"
+  get "/reset-password", to: "session#reset_password"
   # Defines the root path route ("/")
   # root "posts#index"
   get "/tickets", to: "welcome#show"

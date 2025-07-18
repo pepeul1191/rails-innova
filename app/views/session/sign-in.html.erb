@@ -1,0 +1,60 @@
+<% content_for :head do %>
+  <style> 
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .container-fluid {
+      height: 100%;
+    }
+    .row {
+      height: 100%;
+    }
+  </style>
+<% end %>
+<% content_for :footer do %> <% end %>
+<% content_for :scripts do %> <% end %>
+
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <!-- Lado izquierdo: Fondo de color sólido -->
+    <div class="col-md-6 d-none d-md-block bg-secondary"></div>
+
+    <!-- Lado derecho: Formulario -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="w-50">
+        <h2 class="mb-4">Iniciar Sesión</h2>
+        <!-- Formulario -->
+        <form action="/sign-in" method="post" class="needs-validation" id="sign-in-form" novalidate>
+          <!-- Mensaje de error (inicialmente oculto, manejado por JS si es necesario) -->
+          <div class="alert alert-danger d-none" role="alert" id="error-message"></div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Ingres su correo de la universidad" required>
+            <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+            <div class="invalid-feedback">Por favor, ingresa tu contraseña.</div>
+          </div>
+
+          <div class="d-grid gap-2 mb-3">
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            <button type="button" class="btn btn-outline-secondary" id="google-sign-in">
+              <i class="fa fa-google"></i> Iniciar Sesión con Google
+            </button>
+          </div>
+
+          <div class="text-center">
+            <a href="/sign-up" class="d-block mb-2">Crear cuenta</a>
+            <a href="/reset-password" class="d-block">Recuperar contraseña</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

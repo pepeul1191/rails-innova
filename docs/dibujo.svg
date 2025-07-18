@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.5554293"
-     inkscape:cx="386.06705"
-     inkscape:cy="551.29475"
+     inkscape:zoom="0.77771465"
+     inkscape:cx="742.56027"
+     inkscape:cy="572.83221"
      inkscape:window-width="1884"
      inkscape:window-height="1059"
      inkscape:window-x="36"
@@ -103,7 +103,10 @@
     <g
        id="g23061"
        style="fill:#ff5216;fill-opacity:1;stroke:#ff5216;stroke-opacity:1"
-       transform="translate(-9.1892891,-19.287486)">
+       transform="matrix(1.5855486,0,0,1.5854672,-144.16277,-55.871633)"
+       inkscape:export-filename="/home/pepe/Documentos/ruby/tickets_app/public/icon.png"
+       inkscape:export-xdpi="269.82001"
+       inkscape:export-ydpi="269.82001">
       <path
          style="fill:#ff5216;fill-opacity:1;stroke:#ff5216;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 103.94468,127.12633 -1.60904,-10.33014 10.58613,1.51692 1.35917,10.54601 z"
@@ -139,7 +142,7 @@
     </g>
     <g
        id="g15157"
-       transform="matrix(1.7351141,0,0,1.7351141,-50.246911,-98.42637)">
+       transform="matrix(1.7351141,0,0,1.7351141,-70.061471,-99.465542)">
       <path
          style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 107.80239,182.03703 8.77692,-0.0165 c 0,0 0.20971,-0.13835 0.24157,-0.24968 0.13037,-0.45555 -0.21119,-1.01119 -0.2983,-1.38986 -0.1407,-0.135 -0.54228,-0.0261 -0.67938,-0.16473 -0.34279,-0.3442 -0.0586,-1.50427 -0.23905,-2.06909 -0.35043,-0.0142 -0.79342,0.0198 -1.33856,-0.0148 -0.14107,0.73111 0.23828,1.6198 -0.28722,2.08421 -0.84751,0.14879 -1.65225,0.0216 -2.47835,0.0339 -0.94195,0.014 -1.90806,-0.16706 -2.82579,0.0456 -0.26565,0.0616 -0.58355,0.12484 -0.74038,0.3479 -0.26827,0.38156 -0.13146,1.3931 -0.13146,1.3931"
@@ -364,7 +367,7 @@
     </g>
     <g
        id="g75"
-       transform="matrix(1.9246752,0,0,1.9246752,-60.266961,-186.07076)"
+       transform="matrix(1.9246752,0,0,1.9246752,-141.80837,-224.32896)"
        clip-path="url(#clipPath375)"
        mask="none">
       <path

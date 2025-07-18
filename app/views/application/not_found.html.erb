@@ -8,12 +8,16 @@
       text-align: center;
       flex-direction: column;
     }
+
+    .fw-bold{
+      color: var(--primary-color);
+    }
   </style>
 <% end %>
 
 <div class="container">
   <div class="error-container">
-    <h1 class="display-1 fw-bold text-danger">404</h1>
+    <h1 class="display-1 fw-bold">404</h1>
     <h2 class="mb-3">¡Oops! Página no encontrada</h2>
     <p class="text-muted">La página que buscas no existe o ha sido movida.</p>
     <a href="/" class="btn btn-primary mt-3">
@@ -24,4 +28,5 @@
 
 <% content_for :footer do %> <% end %>
 
-<% content_for :scripts do %> <% end %>
+<% content_for :scripts do %> 
+<% end %>
