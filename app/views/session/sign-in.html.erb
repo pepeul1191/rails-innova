@@ -14,7 +14,40 @@
   </style>
 <% end %>
 <% content_for :footer do %> <% end %>
-<% content_for :scripts do %> <% end %>
+<% content_for :script do %> 
+<script>
+  // Seleccionar el formulario por su ID
+  const signInForm = document.getElementById("sign-in-form");
+  const inputEmail = document.getElementById("email");
+  const inputPassword = document.getElementById("password");
+  const messageDiv = document.getElementById("message");
+  const googleButton = document.getElementById("google-sign-in");
+
+  if (!messageDiv.classList.contains("d-none")) {
+    setTimeout(() => {
+      messageDiv.classList.add("d-none");
+    }, 5000);
+  }
+  inputEmail.focus();
+  // Escuchar el evento 'submit'
+  signInForm.addEventListener("submit", function (evento) {
+    // Prevenir el comportamiento por defecto (recargar la página)
+    evento.preventDefault();
+    if(inputEmail.value == "innova@ulima.edu.pe"){
+      signInForm.submit();
+    }else{
+      messageDiv.classList.remove("d-none");
+      messageDiv.innerHTML = "Alumno ULima, recuerde que debe de iniciar sessión con Google con su correo de alumno";
+      inputEmail.value = "";
+      inputPassword.value = "";
+      googleButton.focus();
+      setTimeout(() => {
+        messageDiv.classList.add("d-none");
+      }, 5000);
+    }
+  });
+</script>
+<% end %>
 
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -26,9 +59,15 @@
       <div class="w-50">
         <h2 class="mb-4">Iniciar Sesión</h2>
         <!-- Formulario -->
-        <form action="/sign-in" method="post" class="needs-validation" id="sign-in-form" novalidate>
+        <form action="/sign-in" method="post" class="needs-validation" id="sign-in-form">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
           <!-- Mensaje de error (inicialmente oculto, manejado por JS si es necesario) -->
-          <div class="alert alert-danger d-none" role="alert" id="error-message"></div>
+          <div class="alert alert-danger <% unless flash[:alert] %> d-none <% end %> text-center" role="alert" id="message">
+            <% if flash[:alert] %>
+              <%= flash[:alert] %>
+            <% end %>
+          </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">Correo Electrónico</label>

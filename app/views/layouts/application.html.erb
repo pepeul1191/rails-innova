@@ -17,8 +17,6 @@
     <%= yield %>
     <%= javascript_include_tag '/dist/vendor' %>
     <%= yield :footer %>
-    <script>
-      <%= yield :scripts %>
-    </script>
+    <%= yield :script %>
   </body>
 </html>
