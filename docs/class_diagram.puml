@@ -1,0 +1,41 @@
+@startuml
+
+' Definición de clases
+class Slider {
+  - id: Integer
+  - title: String
+  - subtitle: String
+  - imageUrl: String
+  - activityUrl: String
+  - created: Datetime 
+  - updated: Datetime
+}
+
+class Mentor {
+  - id: Integer
+  - fullName: String
+  - charge: String
+  - email: String
+  - imageUrl: String
+  - created: Datetime 
+  - updated: Datetime
+}
+
+class MentorSpecialism{
+  - id: Integer
+  - mentorId: Integer
+  - specialismId: Integer
+}
+
+class Specialism{
+  - id: Integer
+  - name: String
+  - created: Datetime 
+  - updated: Datetime
+}
+
+' Relaciones
+Mentor --* MentorSpecialism
+Specialism --* MentorSpecialism
+
+@enduml

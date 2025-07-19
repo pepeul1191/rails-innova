@@ -1,24 +1,33 @@
-# README
+# Gestión de Ticktes - Ruby/MongoDB
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- [Documentación](#documentación)
 
-Things you may want to cover:
+Ejecución del servidor:
 
-* Ruby version
+    $ gem install bundler
+    $ bundler install
+    $ npm install
+    $ npm run dev
 
-* System dependencies
+Crear backup de la base de datos MongoDB:
 
-* Configuration
+    $ sudo mongodump --db tickets --out db/
 
-* Database creation
+Restaurar backup de la base de datos MongoDB:
 
-* Database initialization
+    $ sudo mongorestore --db tickets db/tickets
 
-* How to run the test suite
+### Imágenes de PlantUML
 
-* Services (job queues, cache servers, search engines, etc.)
+Generar UMLs:
 
-* Deployment instructions
+    $ chmod +x scripts/render_all_puml.sh
+    $ scripts/render_all_puml.sh
 
-* ...
+---
+
+## Documentación
+
+Diagrama de clases
+
+![Diagrama UML](./docs/pics/class_diagram.png)
