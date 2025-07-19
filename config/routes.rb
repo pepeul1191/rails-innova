@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"
   get "/sign-up", to: "session#sign_up"
+  get "/sign-out", to: "session#logout"
   get "/reset-password", to: "session#reset_password"
+  get '/auth/:provider/callback', to: 'session#google_oauth2'
+  get '/auth/failure', to: 'session#failure'
+  get '/session', to: 'session#get_session'
   # Defines the root path route ("/")
   # root "posts#index"
   get "/tickets", to: "welcome#show"

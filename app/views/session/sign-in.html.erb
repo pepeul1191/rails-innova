@@ -83,9 +83,7 @@
 
           <div class="d-grid gap-2 mb-3">
             <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-            <button type="button" class="btn btn-outline-secondary" id="google-sign-in">
-              <i class="fa fa-google"></i> Iniciar Sesión con Google
-            </button>
+            <%= link_to raw('<i class="fa fa-google"></i> Iniciar Sesión con Google'), '/auth/google_oauth2', class: 'btn btn-outline-secondary', id: 'google-sign-in' %>
           </div>
 
           <div class="text-center">
