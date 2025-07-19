@@ -1,0 +1,76 @@
+<% content_for :head do %>
+  <style> 
+    .contact-section {
+      padding: 60px 0;
+    }
+
+    .contact-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info {
+      margin-bottom: 30px;
+    }
+
+    .contact-info i {
+      font-size: 1.5rem;
+      color: var(--bs-primary);
+      margin-right: 10px;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: var(--bs-primary);
+    }
+
+    .btn-primary{
+      font-size: 18px;
+    }
+  </style>
+<% end %>
+<% content_for :script do %> 
+<script>
+
+</script>
+<% end %>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="contact-card">
+          <h2 class="mb-4 text-center">Contáctanos</h2>
+
+          <!-- Información de contacto -->
+          <div class="contact-info text-center mb-4">
+            <p><i class="fa fa-map-marker"></i> Calle Ejemplo 123, Lima, Perú</p>
+            <p><i class="fa fa-phone"></i> +51 123 456 789</p>
+            <p><i class="fa fa-envelope"></i> contacto@innova.ulima.edu.pe</p>
+          </div>
+
+          <!-- Formulario -->
+          <form>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre completo</label>
+              <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="mensaje" class="form-label">Mensaje</label>
+              <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">Enviar mensaje</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

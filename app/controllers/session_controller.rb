@@ -69,7 +69,7 @@ class SessionController < ApplicationController
     end
 
     # Clear the session
-    session[:user] = nil
+    reset_session
 
     render json: {
       status: 'success',

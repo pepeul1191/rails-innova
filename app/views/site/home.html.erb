@@ -1,0 +1,179 @@
+<% content_for :head do %>
+  <style> 
+    .slider {
+      position: relative;
+      height: 600px; /* Ajusta según necesites */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slider-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 1;
+    }
+
+    .slider-text h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .slider-text p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .slider-text button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .slider-text button:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Sección de estadísticas */
+    .stats-section {
+      background-color: #f8f9fa;
+      padding: 50px 0;
+    }
+
+    .stats-item {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .stats-item h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .stats-item span {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff6b3d; /* Naranja vibrante */
+    }
+
+    /* Sección de noticias */
+    .news-section {
+      padding: 50px 0;
+    }
+
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+  </style>
+<% end %>
+<% content_for :script do %> 
+<script>
+
+</script>
+<% end %>
+<!-- Contenido principal -->
+<!-- Slider -->
+<section class="slider" style="background-image: url('/site/slider1.webp');">
+  <div class="slider-text">
+    <h1>Vive la Experiencia ULima</h1>
+    <p>El conocimiento es continuo e intangible. Es esencial para el emprendimiento y la innovación, y requiere renovación constante.</p>
+    <a href="/about" class="btn btn-primary mt-3">Conoce más</a>
+  </div>
+</section>
+
+<!-- Sección de estadísticas -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row justify-content-around">
+      <div class="col-md-2 stats-item">
+        <h3>Alumnos</h3>
+        <span>28,590</span>
+      </div>
+      <div class="col-md-2 stats-item">
+        <h3>Egresados</h3>
+        <span>68,269</span>
+      </div>
+      <div class="col-md-2 stats-item">
+        <h3>Carreras</h3>
+        <span>14</span>
+      </div>
+      <div class="col-md-2 stats-item">
+        <h3>Doctorados</h3>
+        <span>2</span>
+      </div>
+      <div class="col-md-2 stats-item">
+        <h3>Maestrías</h3>
+        <span>12</span>
+      </div>
+      <div class="col-md-2 stats-item">
+        <h3>Años</h3>
+        <span>63</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección de noticias -->
+<section class="news-section">
+  <div class="container">
+    <h2 class="mb-4">Noticias recientes</h2>
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="/site/slider1.webp" class="card-img-top" alt="Noticia 1">
+          <div class="card-body">
+            <h5 class="card-title">Título de la noticia 1</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="/site/slider1.webp" class="card-img-top" alt="Noticia 2">
+          <div class="card-body">
+            <h5 class="card-title">Título de la noticia 2</h5>
+            <p class="card-text">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="/site/slider1.webp" class="card-img-top" alt="Noticia 3">
+          <div class="card-body">
+            <h5 class="card-title">Título de la noticia 3</h5>
+            <p class="card-text">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="/site/slider1.webp" class="card-img-top" alt="Noticia 4">
+          <div class="card-body">
+            <h5 class="card-title">Título de la noticia 4</h5>
+            <p class="card-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

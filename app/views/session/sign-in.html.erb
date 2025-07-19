@@ -11,6 +11,12 @@
     .row {
       height: 100%;
     }
+    .btn-google {
+      color: #343434 !important;
+    }
+    .btn-google:hover {
+      color: #FDFDFD !important;
+    }
   </style>
 <% end %>
 <% content_for :footer do %> <% end %>
@@ -83,12 +89,14 @@
 
           <div class="d-grid gap-2 mb-3">
             <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-            <%= link_to raw('<i class="fa fa-google"></i> Iniciar Sesión con Google'), '/auth/google_oauth2', class: 'btn btn-outline-secondary', id: 'google-sign-in' %>
+            <%= link_to raw('<i class="fa fa-google"></i> Iniciar Sesión con Google'), '/auth/google_oauth2', class: 'btn btn-outline-secondary  btn-google', id: 'google-sign-in' %>
           </div>
 
           <div class="text-center">
             <a href="/sign-up" class="d-block mb-2">Crear cuenta</a>
             <a href="/reset-password" class="d-block">Recuperar contraseña</a>
+            <hr>
+            <a href="/" class="d-block">Regresar a Innova ULima</a>
           </div>
         </form>
       </div>

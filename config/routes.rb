@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
+  # site
+  root "site#home"
+  get "/contact", to: "site#contact", as: 'home'
+  get "/privacy", to: "site#privacy", as: 'privacy'
+  get "/terms-and-conditions", to: "site#terms", as: 'terms'
+  get "/about", to: "site#about", as: 'about'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"
@@ -23,7 +28,6 @@ Rails.application.routes.draw do
   # root "posts#index"
   get "/tickets", to: "welcome#show"
   post "/sign-in", to: "welcome#sign_in"
-  root "welcome#index"
   # 404
   get '*path', to: 'application#not_found', constraints: ->(request) { !request.path.match?(/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)/) }
 end

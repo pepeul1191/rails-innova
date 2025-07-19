@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Innova ULima" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag '/dist/vendor.min' %>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= yield :head %>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">Innova ULima</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link active" href="/">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="/about">Sobre</a></li>
+              <li class="nav-item"><a class="nav-link" href="/contact">Contacto</a></li>
+              <li class="nav-item"><a class="nav-link" href="/sign-in">Ingresar</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- yield -->
+    <%= yield %>
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-auto">
+      <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Innova ULima. Todos los derechos reservados.</p>
+        <div class="mt-2">
+          <a href="/privacy" class="text-decoration-none me-3">Políticas</a>
+          <a href="/terms-and-conditions" class="text-decoration-none">Términos</a>
+        </div>
+      </div>
+    </footer>
+    <%= javascript_include_tag '/dist/vendor' %>
+    <%= yield :script %>
+  </body>
+</html>
