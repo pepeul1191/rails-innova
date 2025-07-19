@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   # root "posts#index"
   get "/tickets", to: "welcome#show"
   post "/sign-in", to: "welcome#sign_in"
+  # admin
+  get "/tickets", to: "welcome#show"
   # 404
   get '*path', to: 'application#not_found', constraints: ->(request) { !request.path.match?(/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)/) }
 end

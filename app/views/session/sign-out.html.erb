@@ -1,0 +1,36 @@
+<% content_for :head do %>
+  <style>
+    .error-container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .fw-bold{
+      color: var(--primary-color);
+    }
+  </style>
+<% end %>
+
+<div class="container">
+  <div class="error-container">
+    <h2 class="mb-3">Ha cerrado su sessión</h2>
+    <p class="text-muted">Si no eres redirigido automáticamente a la página de inicio, haz clic en el botón de abajo.</p>
+    <a href="/" class="btn btn-primary mt-3">
+      <i class="fa fa-home icon-left-margin" aria-hidden="true"></i> Ir al inicio
+    </a>
+  </div>
+</div>
+
+<% content_for :footer do %> <% end %>
+
+<% content_for :script do %> 
+<script>
+  setTimeout(() => {
+    window.location.href = "/";
+  }, 3000);
+</script>
+<% end %>

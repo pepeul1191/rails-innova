@@ -1,7 +1,16 @@
 class SiteController < ApplicationController
-  layout "site" # Usamos el layout 'site.html.erb'
+  layout :determine_layout
+  # Validar antes de mostrar las vistas de site
+  before_action :redirect_if_authenticated, only: [:contact, :privacy, :terms, :about]
 
   def home
+    if session[:user_type].present?
+      # session[:user_type] existe y NO está vacío
+      render :application
+    else
+      # session[:user_type] no existe o está vacío
+      render :home
+    end
   end
 
   def contact
@@ -14,5 +23,14 @@ class SiteController < ApplicationController
   end
 
   def about
+  end
+
+  def determine_layout
+    # Si el usuario es admin, usa el layout por defecto (application)
+    if session[:user_type].present?
+      'application'
+    else
+      'site'
+    end
   end
 end

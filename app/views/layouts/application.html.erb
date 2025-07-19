@@ -11,10 +11,148 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity))!important;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 56px;
+        overflow-y: auto;
+      }
+
+      .sidebar .nav-link {
+        color: #fff;
+      }
+
+      .sidebar .nav-link.active,
+      .sidebar .nav-link:hover {
+        background-color: #e6e6e6;
+      }
+
+      /* Contenido principal */
+      .main-content {
+        margin-left: 250px;
+        flex: 1;
+        padding: 20px;
+      }
+
+      /* Navbar superior */
+      .top-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1030;
+      }
+
+      .user-menu {
+        cursor: pointer;
+      }
+
+      .user-menu img {
+        width: 35px;
+        height: 35px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .user-name{
+        color: var(--secondary-color) !important;
+      }
+    </style>
     <%= yield :head %>
   </head>
   <body>
-    <%= yield %>
+    <!-- Navbar superior -->
+  <nav class="navbar navbar-light bg-light top-navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Innova Dashboard</a>
+
+      <!-- Opciones de usuario -->
+      <div class="d-flex align-items-center ms-auto">
+        <div class="dropdown user-menu">
+          <button class="btn btn-link dropdown-toggle d-flex align-items-center text-white text-decoration-none user-name"
+                  type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="me-2 d-none d-md-inline"><%= session[:user]['name'] %></span>
+            <img src="<%= session[:user]['image'] %>" alt="Foto de perfil">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Ver perfil</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/sign-out"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar d-none d-md-block">
+    <ul class="nav flex-column p-3">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">
+          <i class="fa fa-dashboard me-2"></i> <!-- 'tachometer-alt' en FA5 es 'dashboard' en FA4 -->
+          Dashboard
+        </a>
+      </li>
+      <% if session[:user_type] == "admin" %>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fa fa-users me-2"></i> <!-- igual en FA4 -->
+          Usuarios
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fa fa-cog me-2"></i> <!-- igual en FA4 -->
+          Noticias
+        </a>
+      </li>
+      <% elsif session[:user_type] == "worker" %>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fa fa-line-chart me-2"></i> <!-- 'chart-line' en FA5 es 'line-chart' en FA4 -->
+          Calendario
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fa fa-envelope me-2"></i> <!-- igual en FA4 -->
+          Mensajes
+        </a>
+      </li>
+      <% elsif session[:user_type] == "student" %>
+        
+      <% end %>
+    </ul>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main-content mt-5">
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
+  </main>
+
+  <!-- Footer opcional -->
+  <footer class="bg-light text-center py-3 mt-auto">
+    <div class="container">
+      <p class="mb-0">© 2025 Innova ULima. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+    
     <%= javascript_include_tag '/dist/vendor' %>
     <%= yield :footer %>
     <%= yield :script %>

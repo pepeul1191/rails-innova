@@ -3,6 +3,10 @@ require 'httparty'
 class SessionController < ApplicationController
   # skip_before_action :verify_authenticity_token, only: [:sign_in]
   skip_before_action :verify_authenticity_token, only: [:google_oauth2]
+   # Usamos el layout 'site.html.erb'
+  layout "blank"
+  # Validar antes de mostrar las vistas de login
+  before_action :redirect_if_authenticated, only: [:sign_in, :sign_up, :reset_password]
 
   def sign_in
     render "session/sign-in"
@@ -24,6 +28,12 @@ class SessionController < ApplicationController
     # Ejemplo simple de validación
     if email == "innova@ulima.edu.pe" && password == "123456"
       # Redirigir si es correcto
+      session[:user_type] = 'admin'
+      session[:user] = {
+        email: "innova@ulima.edu.pe",
+        name: "Innova Admin",
+        image: "/images/admin-user.png",
+      }
       redirect_to root_path, notice: "Inicio de sesión exitoso"
     else
       # Redirigir con mensaje de error
@@ -35,10 +45,17 @@ class SessionController < ApplicationController
     auth = request.env['omniauth.auth']
     if auth && auth.info
       # Almacenar información del usuario en la sesión
+      if auth.info.email.include?("aloe")
+        session[:user_type] = 'student'
+      else
+        session[:user_type] = 'worker'
+      end
+
       session[:user] = {
         email: auth.info.email,
         name: auth.info.name,
         provider: auth.provider,
+        image: auth.info.image,
         uid: auth.uid,
         access_token: auth.credentials.token # Store access token for logout
       }
@@ -71,10 +88,7 @@ class SessionController < ApplicationController
     # Clear the session
     reset_session
 
-    render json: {
-      status: 'success',
-      message: 'Sesión cerrada exitosamente'
-    }, status: :ok
+    render :'sign-out'
   end
 
   def failure
