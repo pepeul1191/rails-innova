@@ -1,0 +1,22 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: 123
+  host: 127.0.0.1
+  port: 3306
+
+development:
+  <<: *default
+  database: innova
+
+test:
+  <<: *default
+  database: innova_test
+
+production:
+  <<: *default
+  database: innova_production
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>

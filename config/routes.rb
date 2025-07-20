@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get "/privacy", to: "site#privacy", as: 'privacy'
   get "/terms-and-conditions", to: "site#terms", as: 'terms'
   get "/about", to: "site#about", as: 'about'
+  # admin
+  get "/specialisms", to: "specialism#index", as: 'specialim_index'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"
@@ -31,5 +33,5 @@ Rails.application.routes.draw do
   # admin
   get "/tickets", to: "welcome#show"
   # 404
-  get '*path', to: 'application#not_found', constraints: ->(request) { !request.path.match?(/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)/) }
+  match "*unmatched_route", to: "application#not_found", via: :all
 end

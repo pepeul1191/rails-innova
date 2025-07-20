@@ -69,7 +69,8 @@ class SessionController < ApplicationController
     render json: {
       status: 'success',
       message: 'Sesón Activa',
-      user: session[:user]
+      user: session[:user],
+      user_type: session[:user_type],
     }, status: :ok 
   end
 

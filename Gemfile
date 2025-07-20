@@ -55,3 +55,5 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection' # Para proteger contra ataques CSRF
 gem 'dotenv-rails', groups: [:development, :test] # Para manejar variables de entorno
+
+gem 'mysql2'

@@ -1,0 +1,13 @@
+<h1>Especialidades</h1>
+
+<% if @specialisms.any? %>
+  <ul>
+    <% @specialisms.each do |specialism| %>
+      <li>
+        <%= specialism.id %>: <%= specialism.name %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No hay especialismos registrados.</p>
+<% end %>
