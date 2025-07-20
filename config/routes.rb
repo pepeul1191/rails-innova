@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   get "/terms-and-conditions", to: "site#terms", as: 'terms'
   get "/about", to: "site#about", as: 'about'
   # admin
-  get "/specialisms", to: "specialism#index", as: 'specialim_index'
+  resources :specialisms
+  get "/specialisms", to: "specialisms#index", as: 'specialims_index'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"
