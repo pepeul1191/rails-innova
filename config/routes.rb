@@ -17,11 +17,19 @@ Rails.application.routes.draw do
   get "/about", to: "site#about", as: 'about'
   # admin
   resources :specialisms
-  get "/specialisms/:id/delete", to: "specialisms#delete", as: 'specialims_delete'
-  get "/specialisms/:id/edit", to: "specialisms#edit", as: 'specialims_edit'
-  get "/specialisms/new", to: "specialisms#new", as: 'specialims_new'
-  post "/specialisms", to: "specialisms#create", as: 'specialims_create'
-  post "/specialisms/:id", to: "specialisms#update", as: 'specialims_update'
+  get "/specialisms", to: "specialisms#index", as: 'specialisms_index'
+  get "/specialisms/:id/delete", to: "specialisms#delete", as: 'specialisms_delete'
+  get "/specialisms/:id/edit", to: "specialisms#edit", as: 'specialisms_edit'
+  get "/specialisms/new", to: "specialisms#new", as: 'specialisms_new'
+  post "/specialisms", to: "specialisms#create", as: 'specialisms_create'
+  post "/specialisms/:id", to: "specialisms#update", as: 'specialisms_update'
+  resources :mentors
+  get "/mentos", to: "mentos#index", as: 'mentos_index'
+  get "/mentors/:id/delete", to: "mentors#delete", as: 'mentors_delete'
+  get "/mentors/:id/edit", to: "mentors#edit", as: 'mentors_edit'
+  get "/mentors/new", to: "mentors#new", as: 'mentors_new'
+  post "/mentors", to: "mentors#create", as: 'mentors_create'
+  post "/mentors/:id", to: "mentors#update", as: 'mentors_update'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"

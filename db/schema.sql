@@ -10,6 +10,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `mentors`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mentors` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(6) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `charge` varchar(60) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `image_url` varchar(100) DEFAULT NULL,
+  `linkedln_url` varchar(70) DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `schema_migrations`
 --
 
@@ -58,5 +79,7 @@ CREATE TABLE `specialisms` (
 LOCK TABLES `schema_migrations` WRITE;
 INSERT INTO `schema_migrations` (version) VALUES
   ('20250719153353'),
-  ('20250719153837');
+  ('20250719153837'),
+  ('20250720160034'),
+  ('20250720161121');
 UNLOCK TABLES;
