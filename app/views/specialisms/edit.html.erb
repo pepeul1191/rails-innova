@@ -14,7 +14,9 @@
   <h2>Información de la Especialidad</h2>
 
   <div style="width: 30%;" class="mt-3">
-    <%= form_with model: @specialism, url: specialisms_path, method: :put, local: true do |form| %>
+    <form action="/specialisms/<%= @specialism.id %>" accept-charset="UTF-8" method="post">
+      <input type="hidden" name="_method" value="patch" autocomplete="off">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <!-- Campo Nombre con icono -->
       <div class="mb-3">
         <label for="specialism_name" class="form-label">Nombre de la Especialidad</label>
@@ -28,6 +30,6 @@
           <i class="fa fa-save"></i> Guardar Registro
         </button>
       </div>
-    <% end %>
+    </form>
   </div>
 </div>

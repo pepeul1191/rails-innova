@@ -96,16 +96,16 @@ class SpecialismsController < ApplicationController
     @specialism = Specialism.find_by(id: params[:id])
   
     if @specialism.nil?
-      redirect_to not_found_path, alert: "❌ Especialidad no encontrada"
+      redirect_to not_found_path, alert: "Especialidad no encontrada"
       return
     end
   
-    name = params.dig(:specialism, :name)
+    name = params[:name]
   
     if @specialism.update(name: name)
-      redirect_to specialisms_path, notice: "✅ Especialidad actualizada"
+      redirect_to specialisms_path, notice: "Especialidad actualizada"
     else
-      flash.now[:alert] = "❌ No se pudo actualizar"
+      flash.now[:alert] = "No se pudo actualizar"
       render :edit
     end
   end

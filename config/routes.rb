@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   # admin
   resources :specialisms
   get "/specialisms/:id/delete", to: "specialisms#delete", as: 'specialims_delete'
+  get "/specialisms/:id/edit", to: "specialisms#edit", as: 'specialims_edit'
+  get "/specialisms/new", to: "specialisms#new", as: 'specialims_new'
+  post "/specialisms", to: "specialisms#create", as: 'specialims_create'
+  post "/specialisms/:id", to: "specialisms#update", as: 'specialims_update'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"

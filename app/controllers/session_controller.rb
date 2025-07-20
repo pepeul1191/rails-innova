@@ -26,7 +26,7 @@ class SessionController < ApplicationController
     password = params[:password]
 
     # Ejemplo simple de validación
-    if email == "innova@ulima.edu.pe" && password == "123456"
+    if email == "innova@ulima.edu.pe" && password == "123"
       # Redirigir si es correcto
       session[:user_type] = 'admin'
       session[:user] = {
