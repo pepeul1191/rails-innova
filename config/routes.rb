@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get "/about", to: "site#about", as: 'about'
   # admin
   resources :specialisms
-  get "/specialisms", to: "specialisms#index", as: 'specialims_index'
+  get "/specialisms/:id/delete", to: "specialisms#delete", as: 'specialims_delete'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"
@@ -34,5 +34,6 @@ Rails.application.routes.draw do
   # admin
   get "/tickets", to: "welcome#show"
   # 404
+  get '/404', to: 'application#not_found', as: 'not_found'
   match "*unmatched_route", to: "application#not_found", via: :all
 end
