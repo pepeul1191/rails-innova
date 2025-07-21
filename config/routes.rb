@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   post "/specialisms", to: "specialisms#create", as: 'specialisms_create'
   post "/specialisms/:id", to: "specialisms#update", as: 'specialisms_update'
   resources :mentors
-  get "/mentos", to: "mentos#index", as: 'mentos_index'
+  get "/mentors", to: "mentors#index", as: 'mentors_index'
   get "/mentors/:id/delete", to: "mentors#delete", as: 'mentors_delete'
   get "/mentors/:id/edit", to: "mentors#edit", as: 'mentors_edit'
   get "/mentors/new", to: "mentors#new", as: 'mentors_new'

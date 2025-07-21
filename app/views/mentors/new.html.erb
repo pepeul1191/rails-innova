@@ -62,16 +62,16 @@
           <div class="mb-3">
             <label class="form-label">Imagen del Mentor</label>
             <div class="input-group mb-2">
-              <input type="file" class="form-control" id="image-upload-input" accept="image/*">
-              <button class="btn btn-outline-secondary" type="button" id="upload-image-btn">
+              <input type="file" class="form-control" id="fileInput" accept="image/*">
+              <input type="hidden" value="" id="imageUrl" name="image_url">
+              <button class="btn btn-outline-secondary" type="button" id="uploadBtn">
                 <i class="fa fa-upload"></i> Subir
               </button>
-              <a href="#" class="btn btn-secondary" id="preview-image-btn" target="_blank" style="">
+              <a href="#" class="btn btn-secondary" id="previewImageBtn" target="_blank" style="">
                 <i class="fa fa-picture-o"></i> Ver
               </a>
             </div>
             <small class="form-text text-muted">Seleccione una imagen y haga clic en 'Subir' para cargarla.</small>
-            <%= hidden_field_tag 'image_url', nil, id: "mentor_image_url" %>
           </div>
         </div>
       </div>
@@ -89,25 +89,38 @@
   </div>
 </div>
 
-
-<!-- Script para el botón de subir imagen -->
-<script>
-  document.getElementById('upload-image-btn').addEventListener('click', function () {
-    const fileInput = document.getElementById('image-upload-input');
-    const file = fileInput.files[0];
-
-    if (!file) {
-      alert("Por favor, seleccione una imagen antes de subir.");
-      return;
-    }
-
-    // Aquí puedes hacer una llamada AJAX para subir el archivo
-    const imageUrl = URL.createObjectURL(file);
-    document.getElementById('mentor_image_url').value = imageUrl;
-    alert("Imagen seleccionada: " + file.name);
-  });
-</script>
-
 <% content_for :script do %>
-  <%= javascript_include_tag '/javascripts/mentors.js' %>
+  <%= javascript_include_tag '/javascripts/files_service' %>
+
+  <script>
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Por favor selecciona una imagen.');
+        return;
+      }
+
+      const folder = 'mentors';
+      const tokenStorageId = 'jwtFilesToken';
+      const saveURL = URLS.FILES_SERVICE + 'api/v1/public-files';
+
+      const afterUploadCallback = (data) => {
+        console.log('Archivo subido:', data);
+        //document.getElementById('previewImageBtn').value = data.path;
+        alert('✅ Imagen subida con éxito');
+        document.getElementById('previewImageBtn').href = URLS.FILES_SERVICE + data.path;
+        document.getElementById('imageUrl').value = data.path;
+      };
+
+      uploadFile({
+        fileInput: file,
+        folder,
+        tokenStorageId,
+        saveURL,
+        afterUploadCallback
+      });
+    });
+  </script>
 <% end %>

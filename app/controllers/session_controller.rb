@@ -29,9 +29,9 @@ class SessionController < ApplicationController
     if email == "innova@ulima.edu.pe"
       # Redirigir si es correcto
       result = SessionHelper.login(email, password)
-      puts '1 ++++++++++++++++++++++++++++++++++'
-      puts result
-      puts '2 ++++++++++++++++++++++++++++++++++'
+      # puts '1 ++++++++++++++++++++++++++++++++++'
+      # puts result
+      # puts '2 ++++++++++++++++++++++++++++++++++'
       if result[:status] == 200 then
         session[:user_type] = 'admin'
         session[:user] = {

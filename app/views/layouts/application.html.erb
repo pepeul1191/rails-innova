@@ -127,6 +127,14 @@
       }
     </style>
 
+    <script>
+      const URLS = {
+        BASE: "<%= Rails.application.credentials.BASE_URL || ENV['BASE_URL'] %>",
+        STATIC: "<%= Rails.application.credentials.BASE_URL || ENV['STATIC_URL'] %>",
+        FILES_SERVICE: "<%= Rails.application.credentials.URL_FILES_SERVICE || ENV['URL_FILES_SERVICE'] %>"
+      };
+    </script>
+
     <%= yield :head %>
   </head>
 
@@ -221,7 +229,7 @@
     </footer>
 
     <%= javascript_include_tag '/dist/vendor' %>
-    <%= javascript_include_tag '/javascripts/tokens' %>
+    <%= javascript_include_tag '/javascripts/tokens_service' %>
     <%= yield :footer %>
     <%= yield :script %>
   </body>

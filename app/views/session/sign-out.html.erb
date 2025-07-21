@@ -29,6 +29,8 @@
 
 <% content_for :script do %> 
 <script>
+  localStorage.removeItem('jwtAccessToken');
+  localStorage.removeItem('jwtFilesToken');
   setTimeout(() => {
     window.location.href = "/";
   }, 3000);
