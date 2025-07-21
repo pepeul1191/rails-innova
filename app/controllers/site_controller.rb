@@ -11,10 +11,8 @@ class SiteController < ApplicationController
       # session[:user_type] no existe o está vacío
       @sliders = Slider.all
       @new_items = NewsItem.order(published: :desc).limit(4)
-      @mentors = Mentor.includes(:specialisms).all
-      puts '1 +++++++++++++++++++++++++++++++++++++++'
-      puts @mentors.to_json
-      puts '2 +++++++++++++++++++++++++++++++++++++++'
+      @mentors = MentorsHelper.get_mentors_with_specialisms
+      puts @mentors
       render :home
     end
   end

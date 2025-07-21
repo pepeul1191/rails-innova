@@ -126,7 +126,7 @@ a[href].btn-primary {
     color: #fff !important;
 }
 
-.form-control, .btn, .alert, .modal-content, .form-select, .input-group-text, .page-link{
+.form-control, .btn, .alert, .modal-content, .form-select, .input-group-text, .page-link, .card{
     border-radius: 0px !important;
 }
 
