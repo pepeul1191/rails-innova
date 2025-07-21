@@ -16,7 +16,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "dev": "concurrently --names \"Rails,Svelte\" -c \"bgRed.bold,bgGreen\" \"rails s\" \"npm run watch\""
+    "dev": "concurrently --names \"Rails,Svelte\" -c \"bgRed.bold,bgGreen\" \"rails s\" \"npm run watch\"",
+    "dev-all": "concurrently --names \"Rails,Svelte,Accesos,Files\" -c \"bgRed.bold,bgGreen,bgBlue,bgWhite.bold\" \"rails s\" \"npm run watch\" \"bash -c 'cd /home/pepe/Documentos/go/accesos && go run main.go 2>/dev/null'\" \"bash -c 'cd /home/pepe/Documentos/ruby/files && npm run dev 2>/dev/null'\" \"npm run dev\""
   },
   "keywords": [],
   "author": "",

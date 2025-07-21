@@ -26,15 +26,31 @@ class SessionController < ApplicationController
     password = params[:password]
 
     # Ejemplo simple de validación
-    if email == "innova@ulima.edu.pe" && password == "123"
+    if email == "innova@ulima.edu.pe"
       # Redirigir si es correcto
-      session[:user_type] = 'admin'
-      session[:user] = {
-        email: "innova@ulima.edu.pe",
-        name: "Innova Admin",
-        image: "/images/admin-user.png",
-      }
-      redirect_to root_path, notice: "Inicio de sesión exitoso"
+      result = SessionHelper.login(email, password)
+      puts '1 ++++++++++++++++++++++++++++++++++'
+      puts result
+      puts '2 ++++++++++++++++++++++++++++++++++'
+      if result[:status] == 200 then
+        session[:user_type] = 'admin'
+        session[:user] = {
+          id: result[:body][:id],
+          username: result[:body][:username],
+          email: "innova@ulima.edu.pe",
+          name: "Innova Admin",
+          image: "/images/admin-user.png",
+        }
+        session[:tokens] = {
+          access: result[:body][:access_token],
+          files: result[:body][:files_token],
+        }
+        redirect_to root_path, notice: "Inicio de sesión exitoso"
+      elsif result[:status] == 404 then
+        redirect_to sign_in_path, alert: "Correo o contraseña incorrectos"
+      else
+        redirect_to sign_in_path, alert: result[:body][:error]
+      end
     else
       # Redirigir con mensaje de error
       redirect_to sign_in_path, alert: "Correo o contraseña incorrectos"
@@ -71,7 +87,21 @@ class SessionController < ApplicationController
       message: 'Sesón Activa',
       user: session[:user],
       user_type: session[:user_type],
+      tokens: session[:tokens],
     }, status: :ok 
+  end
+
+  def tokens
+    if session[:tokens].present?
+      render json: {
+        tokens: session[:tokens]
+      }, status: :ok
+    else
+      render json: {
+        error: "No se encontraron tokens",
+        message: "La sesión no contiene tokens de autenticación."
+      }, status: 500
+    end
   end
 
   def logout

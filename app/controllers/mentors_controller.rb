@@ -36,4 +36,8 @@ class MentorsController < ApplicationController
     # Paginación
     @mentors = query.paginate(page: @page, per_page: @per_page)
   end
+
+  def new
+    @link = '/mentors'
+  end
 end

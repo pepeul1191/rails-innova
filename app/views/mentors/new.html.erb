@@ -1,0 +1,113 @@
+<div class="mt-4">
+  <h1>
+    <a href="/mentors">
+      <i class="fa fa-bullseye me-2"></i> Gestión de Mentores
+    </a> / Agregar Mentor
+  </h1>
+  <hr>
+
+  <!-- Mensaje general de error -->
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+  <!-- Mensaje general de error -->
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+
+  <h2>Información del Mentor</h2>
+
+  <div class="mt-3">
+    <form action="/mentors" method="post">
+      <div class="row">
+
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+
+          <!-- Campo Código -->
+          <div class="mb-3">
+            <label for="mentor_code" class="form-label">Código (6 dígitos)</label>
+            <input type="text" id="mentor_code" name="code" class="form-control" placeholder="Ej: 123456">
+          </div>
+
+          <!-- Campo Nombre Completo -->
+          <div class="mb-3">
+            <label for="mentor_full_name" class="form-label">Nombre Completo</label>
+            <input type="text" id="mentor_full_name" name="full_name" class="form-control" placeholder="Ej: María López">
+          </div>
+
+          <!-- Campo Cargo -->
+          <div class="mb-3">
+            <label for="mentor_charge" class="form-label">Cargo o Especialidad</label>
+            <input type="text" id="mentor_charge" name="charge" class="form-control" placeholder="Ej: Mentor en Innovación">
+          </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-md-6">
+
+          <!-- Campo Email -->
+          <div class="mb-3">
+            <label for="mentor_email" class="form-label">Correo Electrónico</label>
+            <input type="email" id="mentor_email" name="email" class="form-control" placeholder="ejemplo@correo.com">
+          </div>
+
+          <!-- Campo LinkedIn (Opcional) -->
+          <div class="mb-3">
+            <label for="mentor_linkedln_url" class="form-label">LinkedIn (Opcional)</label>
+            <input type="url" id="mentor_linkedln_url" name="linkedln_url" class="form-control" placeholder="https://pe.linkedin.com/in/ejemplo ">
+          </div>
+
+          <!-- Botón para cargar imagen (AJAX) -->
+          <div class="mb-3">
+            <label class="form-label">Imagen del Mentor</label>
+            <div class="input-group mb-2">
+              <input type="file" class="form-control" id="image-upload-input" accept="image/*">
+              <button class="btn btn-outline-secondary" type="button" id="upload-image-btn">
+                <i class="fa fa-upload"></i> Subir
+              </button>
+              <a href="#" class="btn btn-secondary" id="preview-image-btn" target="_blank" style="">
+                <i class="fa fa-picture-o"></i> Ver
+              </a>
+            </div>
+            <small class="form-text text-muted">Seleccione una imagen y haga clic en 'Subir' para cargarla.</small>
+            <%= hidden_field_tag 'image_url', nil, id: "mentor_image_url" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="d-flex justify-content-between">
+        <a href="/mentors" class="btn btn-secondary">
+          <i class="fa fa-arrow-left"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save"></i> Guardar Mentor
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Script para el botón de subir imagen -->
+<script>
+  document.getElementById('upload-image-btn').addEventListener('click', function () {
+    const fileInput = document.getElementById('image-upload-input');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert("Por favor, seleccione una imagen antes de subir.");
+      return;
+    }
+
+    // Aquí puedes hacer una llamada AJAX para subir el archivo
+    const imageUrl = URL.createObjectURL(file);
+    document.getElementById('mentor_image_url').value = imageUrl;
+    alert("Imagen seleccionada: " + file.name);
+  });
+</script>
+
+<% content_for :script do %>
+  <%= javascript_include_tag '/javascripts/mentors.js' %>
+<% end %>

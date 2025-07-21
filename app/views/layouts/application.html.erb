@@ -66,8 +66,12 @@
         color: #FDFDFD !important;
       }
 
+      .nav-link:hover {
+        color: #343434 !important;
+      }
+
       .sidebar.sidebar .nav-link:hover {
-        background-color: #e6e6e6;
+        background-color: #fff;
       }
 
       .nav-link.active{
@@ -217,6 +221,7 @@
     </footer>
 
     <%= javascript_include_tag '/dist/vendor' %>
+    <%= javascript_include_tag '/javascripts/tokens' %>
     <%= yield :footer %>
     <%= yield :script %>
   </body>

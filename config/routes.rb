@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'session#google_oauth2'
   get '/auth/failure', to: 'session#failure'
   get '/session', to: 'session#get_session'
+  get '/tokens', to: 'session#tokens'
   # Defines the root path route ("/")
   # root "posts#index"
   get "/tickets", to: "welcome#show"

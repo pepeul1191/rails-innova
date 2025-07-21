@@ -19,9 +19,17 @@ Restaurar backup de la base de datos MongoDB:
 
 ### Variables de entorno
 
+    # database
+    DB=mysql://root:123@127.0.0.1:3306/innova
+    # oauth service
     GOOGLE_CLIENT_ID=XYZ
     GOOGLE_CLIENT_SECRET=XYZ
-    DB=mysql://root:password@127.0.0.1:3306/mydatabase
+    # file service
+    X_AUTH_FILES_SERVICE=dXNlci1zdGlja3lfc2VjcmV0XzEyMzQ1Njc
+    URL_FILES_SERVICE=http://localhost:8090/
+    # access service
+    X_AUTH_ACCESS_SERVICE=dXNlci1zdGlja3lfc2VjcmV0XzEyMzQ1Njc
+    URL_ACCESS_SERVICE=http://localhost:8080/
 
 ### Migraciones con DBMATE
 
