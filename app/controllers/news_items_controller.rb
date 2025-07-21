@@ -5,7 +5,10 @@ class NewsItemsController < ApplicationController
   def index
     @link = '/news-items'
     # Parámetros
-    @name = params[:name]
+    @title = params[:title]
+    @subtitle = params[:subtitle]
+    @init_date = params[:init_date]
+    @end_date = params[:end_date]
     @page = params[:page]&.to_i || 1
     @per_page = params[:per_page]&.to_i || 10
 
@@ -13,10 +16,29 @@ class NewsItemsController < ApplicationController
     query = NewsItem.all
 
     # Filtro por nombre
-    if @name.present?
-      query = query.where("name LIKE ?", "%#{@name}%")
+    if @title.present?
+      query = query.where("title LIKE ?", "%#{@title}%")
     end
 
+    if @subtitle.present?
+      query = query.where("subtitle LIKE ?", "%#{@subtitle}%")
+    end
+
+    # Filtro por rango de fechas
+    if @init_date.present? && @end_date.present?
+      begin
+        init = Date.parse(@init_date)
+        end_date = Date.parse(@end_date)
+
+        if end_date >= init
+          query = query.where(published: init..end_date)
+        else
+          flash.now[:alert] = "La fecha final debe ser mayor o igual a la inicial."
+        end
+      rescue ArgumentError
+        flash.now[:alert] = "Formato de fecha inválido."
+      end
+    end
     # Contar total
     @total = query.count
 
