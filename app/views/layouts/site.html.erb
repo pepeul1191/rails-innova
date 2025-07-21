@@ -11,6 +11,16 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <style>
+      .btn-secondary{
+        background: var(--bs-gray-dark);
+        color: #FFF !important;
+      }
+
+      .btn-secondary:hover{
+        color: #FDFDFD !important;
+      }
+    </style>
     <%= yield :head %>
   </head>
   <body class="d-flex flex-column min-vh-100">

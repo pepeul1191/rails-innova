@@ -58,3 +58,4 @@ gem 'dotenv-rails', groups: [:development, :test] # Para manejar variables de en
 gem 'rack-cors'
 gem 'mysql2'
 gem 'will_paginate', '~> 3.3'
+gem 'redcarpet'

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get "/privacy", to: "site#privacy", as: 'privacy'
   get "/terms-and-conditions", to: "site#terms", as: 'terms'
   get "/about", to: "site#about", as: 'about'
+  get "/news/:url", to: "site#news"
   # admin
   resources :specialisms
   get "/specialisms", to: "specialisms#index", as: 'specialisms_index'

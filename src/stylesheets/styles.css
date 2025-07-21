@@ -133,3 +133,13 @@ a[href].btn-primary {
 .btn i{
     margin-right: 8px;
 }
+
+
+.btn-secondary{
+  background: var(--bs-gray-dark);
+  color: #FFF !important;
+}
+
+.btn-secondary:hover{
+  color: #FDFDFD !important;
+}

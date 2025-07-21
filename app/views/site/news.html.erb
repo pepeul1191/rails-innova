@@ -1,0 +1,42 @@
+<!-- Imagen destacada: full-width -->
+<% if @new.image_url.present? %>
+  <div class="position-relative overflow-hidden" style="margin: 0; width: 100vw; left: calc(-50vw + 50%); max-height: 500px;">
+    <img
+      src="<%= ENV['URL_FILES_SERVICE'] + @new.image_url %>"
+      alt="<%= @new.title %>"
+      class="img-fluid w-100"
+      style="object-fit: cover; height: 100%;"
+      loading="lazy"
+    >
+  </div>
+<% end %>
+
+<!-- Contenido: sigue en el container -->
+<div class="container my-5">
+  <!-- Título y metadatos -->
+  <h1 class="mb-3"><%= @new.title %></h1>
+
+  <p class="lead text-secondary">
+    <%= @new.subtitle %>
+  </p>
+
+  <p class="text-muted">
+    <% if @new.published %>
+      <%= @new.published.strftime("%d de %B de %Y") %>
+    <% end %>
+  </p>
+
+  <hr>
+
+  <!-- Contenido en Markdown convertido a HTML -->
+  <div class="new-content mt-4">
+    <%= markdown_to_html(@new.content) %>
+  </div>
+
+  <!-- Volver -->
+  <div class="mt-5">
+    <a href="/" class="btn btn-secondary">
+      <i class="fa fa-arrow-left"></i> Volver a Inicio
+    </a>
+  </div>
+</div>
