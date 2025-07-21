@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   get "/mentors/new", to: "mentors#new", as: 'mentors_new'
   post "/mentors", to: "mentors#create", as: 'mentors_create'
   post "/mentors/:id", to: "mentors#update", as: 'mentors_update'
+  post '/mentors/:mentor_id/specialisms', to: 'mentors#update_specialisms', as: 'update_mentor_specialisms'
   # session
   get "/sign-in", to: "session#sign_in", as: 'sign_in'
   post "/sign-in", to: "session#login"

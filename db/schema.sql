@@ -31,6 +31,25 @@ CREATE TABLE `mentors` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `mentors_specialisms`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mentors_specialisms` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `mentor_id` int NOT NULL,
+  `specialism_id` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mentor_id` (`mentor_id`,`specialism_id`),
+  KEY `specialism_id` (`specialism_id`),
+  CONSTRAINT `mentors_specialisms_ibfk_1` FOREIGN KEY (`mentor_id`) REFERENCES `mentors` (`id`),
+  CONSTRAINT `mentors_specialisms_ibfk_2` FOREIGN KEY (`specialism_id`) REFERENCES `specialisms` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `schema_migrations`
 --
 
@@ -81,5 +100,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20250719153353'),
   ('20250719153837'),
   ('20250720160034'),
-  ('20250720161121');
+  ('20250720161121'),
+  ('20250721042528');
 UNLOCK TABLES;

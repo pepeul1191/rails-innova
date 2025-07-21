@@ -62,7 +62,7 @@ class MentorsController < ApplicationController
 
     begin
       if @mentor.save
-        redirect_to mentors_path, notice: "Mentor creado correctamente"
+        redirect_to '/mentors/' + @mentor.id.to_s + '/edit', notice: "Mentor creado correctamente"
       else
         flash.now[:alert] = "Hay errores en el formulario"
         render :new
@@ -98,6 +98,9 @@ class MentorsController < ApplicationController
     begin
       @mentor = Mentor.find(params[:id])
       @link = '/mentors'
+
+      @specialisms = Specialism.joins("LEFT JOIN mentors_specialisms ms ON ms.specialism_id = specialisms.id AND ms.mentor_id = #{params[:id]}").select("specialisms.*, ms.mentor_id IS NOT NULL AS assigned")
+
       render :edit
     rescue ActiveRecord::RecordNotFound
       # Si no se encuentra el registro, redirige a una página 404
@@ -138,6 +141,21 @@ class MentorsController < ApplicationController
       flash.now[:alert] = "No se pudo actualizar"
       render :edit
     end
+  end
+
+  def update_specialisms
+    mentor_id = params[:mentor_id]
+    specialism_ids = params[:specialism_ids] || []
+    puts '1 ++++++++++++++++++++++++++++++++++++++++++++++++++'
+    # Eliminar asociaciones anteriores
+    MentorSpecialism.where(mentor_id: mentor_id).destroy_all
+    puts '2 ++++++++++++++++++++++++++++++++++++++++++++++++++'
+    # Crear nuevas asociaciones
+    specialism_ids.each do |id|
+      MentorSpecialism.create(mentor_id: mentor_id, specialism_id: id)
+    end
+  
+    redirect_to mentors_path, notice: "Especialidades actualizadas correctamente"
   end
 
   def new
