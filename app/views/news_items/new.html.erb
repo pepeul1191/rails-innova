@@ -1,0 +1,155 @@
+<% content_for :head do %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<% end %>
+
+<div class="mt-4">
+  <h1>
+    <a href="/news-items">
+      <i class="fa fa-newspaper-o me-2"></i> Gestión de Noticias
+    </a> / Agregar Noticia
+  </h1>
+  <hr>
+
+  <!-- Mensaje general de error -->
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+
+  <h2>Información de la Noticia</h2>
+  <div class="mt-3">
+    <form action="/news-items" method="post">
+      <div class="row">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+          <!-- Campo Título -->
+          <div class="mb-6">
+            <label for="news_item_title" class="form-label">Título</label>
+            <input type="text" id="news_item_title" name="title" class="form-control" placeholder="Ej: Convocatorio de emprendimientos...">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Campo Subtítulo -->
+          <div class="mb-6">
+            <label for="news_item_subtitle" class="form-label">Subtítulo</label>
+            <input type="text" id="news_item_subtitle" name="subtitle" class="form-control" placeholder="Ej: Aprovecha esta oportunidad">
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <!-- Columna derecha -->
+        <div class="col-md-6">
+          <!-- Campo URL (Opcional) -->
+          <div class="mb-3">
+            <label for="url" class="form-label">URL (Autogenerado: id + título)</label>
+            <input type="url" id="url" disabled name="url" class="form-control" placeholder="123-nueva-convocatoria">
+          </div>
+        </div>
+        <div class="col-md-4">
+        <!-- Botón para cargar imagen (AJAX) -->
+          <div class="mb-3">
+            <label class="form-label">Imagen de la Noticia</label>
+            <div class="input-group mb-2">
+              <input type="file" class="form-control" id="fileInput" accept="image/*">
+              <input type="hidden" value="" id="imageUrl" name="image_url">
+              <button class="btn btn-outline-secondary" type="button" id="uploadBtn">
+                <i class="fa fa-upload"></i> Subir
+              </button>
+              <a href="#" class="btn btn-secondary" id="previewImageBtn" target="_blank" style="">
+                <i class="fa fa-picture-o"></i> Ver
+              </a>
+            </div>
+            <small class="form-text text-muted">Seleccione una imagen y haga clic en 'Subir' para cargarla.</small>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="published" class="form-label">Fecha Publicación</label>
+          <input type="date" id="published" name="published" class="form-control" placeholder="Por defecto, hoy" value="">
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Columna derecha -->
+        <label for="news_content" class="form-label">Contenido de la Noticia</label>
+        <div class="col-md-12">
+          <textarea id="news_content" name="content">
+            # Título del artículo
+            Aquí puedes escribir en **Markdown**
+          </textarea>
+        </div>
+      </div>
+      <!-- Botones -->
+      <div class="d-flex justify-content-between">
+        <a href="/mentors" class="btn btn-secondary">
+          <i class="fa fa-arrow-left"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save"></i> Guardar Mentor
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% content_for :script do %>
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+  <%= javascript_include_tag '/javascripts/files_service' %>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // published
+      const dateInput = document.getElementById('published');
+      const today = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+      dateInput.value = today;
+
+      // content
+      new SimpleMDE({
+        element: document.getElementById("news_content"),
+        spellChecker: false,
+        autosave: {
+          enabled: false,
+          uniqueId: "1", // Opcional, para guardar automáticamente
+        },
+        initialValue: "",
+        promptURLs: true,
+        toolbar: [
+          "bold", "italic", "heading", "|",
+          "quote", "unordered-list", "ordered-list", "|",
+          "link", "image", "table", "horizontal-rule", "|",
+          "preview", 
+        ]
+      });
+    });
+
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Por favor selecciona una imagen.');
+        return;
+      }
+
+      const folder = 'news-items';
+      const tokenStorageId = 'jwtFilesToken';
+      const saveURL = URLS.FILES_SERVICE + 'api/v1/public-files';
+
+      const afterUploadCallback = (data) => {
+        console.log('Archivo subido:', data);
+        //document.getElementById('previewImageBtn').value = data.path;
+        alert('✅ Imagen subida con éxito');
+        document.getElementById('previewImageBtn').href = URLS.FILES_SERVICE + data.path;
+        document.getElementById('imageUrl').value = data.path;
+      };
+
+      uploadFile({
+        fileInput: file,
+        folder,
+        tokenStorageId,
+        saveURL,
+        afterUploadCallback
+      });
+    });
+  </script>
+<% end %>

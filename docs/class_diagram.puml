@@ -11,6 +11,17 @@ class Slider {
   - updated: Datetime
 }
 
+class Activity {
+  - id: Integer
+  - title: String
+  - subtitle: String
+  - content: String
+  - imageUrl: String
+  - url: String
+  - created: Datetime 
+  - updated: Datetime
+}
+
 class Mentor {
   - id: Integer
   - fullName: String

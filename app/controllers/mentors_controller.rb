@@ -146,10 +146,8 @@ class MentorsController < ApplicationController
   def update_specialisms
     mentor_id = params[:mentor_id]
     specialism_ids = params[:specialism_ids] || []
-    puts '1 ++++++++++++++++++++++++++++++++++++++++++++++++++'
     # Eliminar asociaciones anteriores
     MentorSpecialism.where(mentor_id: mentor_id).destroy_all
-    puts '2 ++++++++++++++++++++++++++++++++++++++++++++++++++'
     # Crear nuevas asociaciones
     specialism_ids.each do |id|
       MentorSpecialism.create(mentor_id: mentor_id, specialism_id: id)

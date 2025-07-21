@@ -23,6 +23,13 @@ Rails.application.routes.draw do
   get "/specialisms/new", to: "specialisms#new", as: 'specialisms_new'
   post "/specialisms", to: "specialisms#create", as: 'specialisms_create'
   post "/specialisms/:id", to: "specialisms#update", as: 'specialisms_update'
+  resources :news_items
+  get "/news-items", to: "news_items#index", as: 'news_items_index'
+  get "/news-items/:id/delete", to: "news_items#delete", as: 'news_items_delete'
+  get "/news-items/:id/edit", to: "news_items#edit", as: 'news_items_edit'
+  get "/news-items/new", to: "news_items#new", as: 'news_items_new'
+  post "/news-items", to: "news_items#create", as: 'news_items_create'
+  post "/news-items/:id", to: "news_items#update", as: 'news_items_update'
   resources :mentors
   get "/mentors", to: "mentors#index", as: 'mentors_index'
   get "/mentors/:id/delete", to: "mentors#delete", as: 'mentors_delete'

@@ -49,8 +49,8 @@ Deshacer
 
 Generar UMLs:
 
-    $ chmod +x scripts/render_all_puml.sh
-    $ scripts/render_all_puml.sh
+    $ chmod +x scripts/render_puml.sh
+    $ scripts/render_puml.sh
 
 ---
 
