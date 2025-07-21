@@ -68,9 +68,9 @@ class NewsItemsController < ApplicationController
     begin
       @news_item = NewsItem.find(params[:id])
       if @news_item.destroy
-        redirect_to specialisms_path, notice: "Noticia eliminada"
+        redirect_to '/news-items', notice: "Noticia eliminada"
       else
-        redirect_to specialisms_path, alert: "No se pudo eliminar"
+        redirect_to '/news-items', alert: "No se pudo eliminar"
       end
     rescue ActiveRecord::RecordNotFound
       # Si no se encuentra el registro, redirige a una página 404
@@ -107,10 +107,20 @@ class NewsItemsController < ApplicationController
       return
     end
   
-    name = params[:name]
+    title = params[:title]
+    subtitle = params[:subtitle]
+    image_url = params[:image_url]
+    published = params[:published]
+    content = params[:content]
   
-    if @news_item.update(name: name)
-      redirect_to specialisms_path, notice: "Noticia actualizada"
+    if @news_item.update(
+      title: title,
+      subtitle: subtitle,
+      image_url: image_url.presence || 'uploads/news-items/default.jpg',
+      published: published,
+      content: content,
+    )
+      redirect_to "/news-items/#{params[:id]}/edit", notice: "Noticia actualizada"
     else
       flash.now[:alert] = "No se pudo actualizar"
       render :edit
