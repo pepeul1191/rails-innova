@@ -1,0 +1,15 @@
+-- migrate:up
+
+CREATE TABLE sliders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    subtitle VARCHAR(200),
+    image_url VARCHAR(100),
+    activity_url VARCHAR(180),
+    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- migrate:down
+
+DROP TABLE IF EXISTS sliders;

@@ -116,12 +116,12 @@
 
                   <!-- Siguiente -->
                   <li class="page-item <% if ((@page == 1 && @pages == 0) || @page == @pages) %>disabled<% end %>">
-                    <%= link_to 'Siguiente <i class="fa fa-angle-right"></i>'.html_safe, mentors_path(page: @page + 1, per_page: @per_page, name: @name), class: "page-link" %>
+                    <%= link_to 'Siguiente <i class="fa fa-angle-right"></i>'.html_safe, news_items_path(page: @page + 1, per_page: @per_page, name: @name), class: "page-link" %>
                   </li>
 
                   <!-- Último -->
                   <li class="page-item <% if ((@page == 1 && @pages == 0) || @page == @pages) %>disabled<% end %>">
-                    <%= link_to 'Último <i class="fa fa-angle-double-right"></i>'.html_safe, mentors_path(page: @pages, per_page: @per_page, name: @name), class: "page-link" %>
+                    <%= link_to 'Último <i class="fa fa-angle-double-right"></i>'.html_safe, news_items_path(page: @pages, per_page: @per_page, name: @name), class: "page-link" %>
                   </li>
                 </ul>
               </nav>

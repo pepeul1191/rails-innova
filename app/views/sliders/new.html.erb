@@ -1,0 +1,117 @@
+<% content_for :head do %>
+<% end %>
+
+<div class="mt-4">
+  <h1>
+    <a href="/sliders">
+      <i class="fa fa-picture-o me-2"></i> Gestión de Sliders
+    </a> / Crear Slider
+  </h1>
+  <hr>
+
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+  <!-- Mensaje general de error -->
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+
+ <h2>Información de la Slider</h2>
+  <div class="mt-3">
+    <form action="/sliders" method="post">
+      <div class="row">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+          <!-- Campo Título -->
+          <div class="mb-6">
+            <label for="news_item_title" class="form-label">Título</label>
+            <input type="text" id="news_item_title"  name="title" class="form-control" placeholder="Ej: Convocatorio de emprendimientos...">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Campo Subtítulo -->
+          <div class="mb-6">
+            <label for="news_item_subtitle" class="form-label">Subtítulo</label>
+            <input type="text" id="news_item_subtitle" name="subtitle" class="form-control" placeholder="Ej: Aprovecha esta oportunidad">
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <!-- Columna derecha -->
+        <div class="col-md-6">
+          <!-- Campo URL (Opcional) -->
+          <div class="mb-3">
+            <label for="activity_url" class="form-label">URL (Opcional)</label>
+            <input type="activity_url" id="activity_url" name="activity_url" class="form-control" placeholder="123-nueva-convocatoria" value="">
+          </div>
+        </div>
+        <div class="col-md-6">
+        <!-- Botón para cargar imagen (AJAX) -->
+          <div class="mb-3">
+            <label class="form-label">Imagen de la Slider</label>
+            <div class="input-group mb-2">
+              <input type="file" class="form-control" id="fileInput" accept="image/*" value="">
+              <input type="hidden" value="" id="imageUrl" name="image_url">
+              <button class="btn btn-outline-secondary" type="button" id="uploadBtn">
+                <i class="fa fa-upload"></i> Subir
+              </button>
+              <a href="#" class="btn btn-secondary" id="previewImageBtn" target="_blank" style="">
+                <i class="fa fa-picture-o"></i> Ver
+              </a>
+            </div>
+            <small class="form-text text-muted">Seleccione una imagen y haga clic en 'Subir' para cargarla.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="d-flex justify-content-between">
+        <a href="/sliders" class="btn btn-secondary">
+          <i class="fa fa-arrow-left"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save"></i> Guardar Slider
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% content_for :script do %>
+  <%= javascript_include_tag '/javascripts/files_service' %>
+
+  <script>
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Por favor selecciona una imagen.');
+        return;
+      }
+
+      const folder = 'sliders';
+      const tokenStorageId = 'jwtFilesToken';
+      const saveURL = URLS.FILES_SERVICE + 'api/v1/public-files';
+
+      const afterUploadCallback = (data) => {
+        console.log('Archivo subido:', data);
+        //document.getElementById('previewImageBtn').value = data.path;
+        alert('✅ Imagen subida con éxito');
+        document.getElementById('previewImageBtn').href = URLS.FILES_SERVICE + data.path;
+        document.getElementById('imageUrl').value = data.path;
+      };
+
+      uploadFile({
+        fileInput: file,
+        folder,
+        tokenStorageId,
+        saveURL,
+        afterUploadCallback
+      });
+    });
+  </script>
+<% end %>

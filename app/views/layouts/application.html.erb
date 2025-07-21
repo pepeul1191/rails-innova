@@ -180,6 +180,12 @@
               Noticias
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if @link == '/sliders' %>" href="/sliders">
+              <i class="fa fa-picture-o me-2"></i>
+              Sliders
+            </a>
+          </li>
         <% elsif session[:user_type] == "worker" %>
           <li class="nav-item">
             <a class="nav-link" href="#">
