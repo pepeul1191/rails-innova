@@ -1,0 +1,126 @@
+<div class="mt-4">
+  <h1>
+    <a href="/mentors">
+      <i class="fa fa-bullseye me-2"></i> Gestión de Mentores
+    </a> / Editar Mentor
+  </h1>
+  <hr>
+
+  <!-- Mensaje general de error -->
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+  <!-- Mensaje general de error -->
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+
+  <h2>Información del Mentor</h2>
+
+  <div class="mt-3">
+    <form action="/mentors/<%= @mentor.id %>" method="post">
+      <div class="row">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+
+          <!-- Campo Código -->
+          <div class="mb-3">
+            <label for="mentor_code" class="form-label">Código (6 dígitos)</label>
+            <input type="text" id="mentor_code" name="code" class="form-control" placeholder="Ej: 123456" value="<%= @mentor.code %>">
+          </div>
+
+          <!-- Campo Nombre Completo -->
+          <div class="mb-3">
+            <label for="mentor_full_name" class="form-label">Nombre Completo</label>
+            <input type="text" id="mentor_full_name" name="full_name" class="form-control" placeholder="Ej: María López" value="<%= @mentor.full_name %>">
+          </div>
+
+          <!-- Campo Cargo -->
+          <div class="mb-3">
+            <label for="mentor_charge" class="form-label">Cargo o Especialidad</label>
+            <input type="text" id="mentor_charge" name="charge" class="form-control" placeholder="Ej: Mentor en Innovación" value="<%= @mentor.charge %>">
+          </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-md-6">
+
+          <!-- Campo Email -->
+          <div class="mb-3">
+            <label for="mentor_email" class="form-label">Correo Electrónico</label>
+            <input type="email" id="mentor_email" name="email" class="form-control" placeholder="ejemplo@correo.com" value="<%= @mentor.email %>">
+          </div>
+
+          <!-- Campo LinkedIn (Opcional) -->
+          <div class="mb-3">
+            <label for="mentor_linkedln_url" class="form-label">LinkedIn (Opcional)</label>
+            <input type="url" id="mentor_linkedln_url" name="linkedln_url" class="form-control" placeholder="https://pe.linkedin.com/in/ejemplo" value="<%= @mentor.linkedln_url %>">
+          </div>
+
+          <!-- Botón para cargar imagen (AJAX) -->
+          <div class="mb-3">
+            <label class="form-label">Imagen del Mentor</label>
+            <div class="input-group mb-2">
+              <input type="file" class="form-control" id="fileInput" accept="image/*">
+              <input type="hidden" value="<%= @mentor.image_url %>" id="imageUrl" name="image_url">
+              <button class="btn btn-outline-secondary" type="button" id="uploadBtn">
+                <i class="fa fa-upload"></i> Subir
+              </button>
+              <a href="<%= ENV['URL_FILES_SERVICE'] + @mentor.image_url %>" class="btn btn-secondary" id="previewImageBtn" target="_blank" style="">
+                <i class="fa fa-picture-o"></i> Ver
+              </a>
+            </div>
+            <small class="form-text text-muted">Seleccione una imagen y haga clic en 'Subir' para cargarla.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="d-flex justify-content-between">
+        <a href="/mentors" class="btn btn-secondary">
+          <i class="fa fa-arrow-left"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save"></i> Guardar Mentor
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% content_for :script do %>
+  <%= javascript_include_tag '/javascripts/files_service' %>
+
+  <script>
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Por favor selecciona una imagen.');
+        return;
+      }
+
+      const folder = 'mentors';
+      const tokenStorageId = 'jwtFilesToken';
+      const saveURL = URLS.FILES_SERVICE + 'api/v1/public-files';
+
+      const afterUploadCallback = (data) => {
+        console.log('Archivo subido:', data);
+        //document.getElementById('previewImageBtn').value = data.path;
+        alert('✅ Imagen subida con éxito');
+        document.getElementById('previewImageBtn').href = URLS.FILES_SERVICE + data.path;
+        document.getElementById('imageUrl').value = data.path;
+      };
+
+      uploadFile({
+        fileInput: file,
+        folder,
+        tokenStorageId,
+        saveURL,
+        afterUploadCallback
+      });
+    });
+  </script>
+<% end %>
