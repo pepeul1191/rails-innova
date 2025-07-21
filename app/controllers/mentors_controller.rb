@@ -37,6 +37,44 @@ class MentorsController < ApplicationController
     @mentors = query.paginate(page: @page, per_page: @per_page)
   end
 
+  def create
+    # Action
+    code = params[:code]
+    full_name = params[:full_name]
+    charge = params[:charge]
+    email = params[:email]
+    linkedln_url = params[:linkedln_url]
+    image_url = params[:image_url].presence || 'uploads/mentors/default.png'
+
+    now = Time.now
+
+    @mentor = Mentor.new(
+      code: code,
+      full_name: full_name,
+      charge: charge,
+      email: email,
+      email: email,
+      linkedln_url: linkedln_url,
+      image_url: image_url,
+      created: now,
+      updated: now
+    )
+
+    begin
+      if @mentor.save
+        redirect_to mentors_path, notice: "Mentor creado correctamente"
+      else
+        flash.now[:alert] = "Hay errores en el formulario"
+        render :new
+      end
+    rescue => e
+      # Captura cualquier error general
+      Rails.logger.error "Error al crear mentor: #{e.message}"
+      flash.now[:alert] = "Ocurrió un error inesperado: #{e.message}"
+      render :new
+    end
+  end
+
   def new
     @link = '/mentors'
   end
