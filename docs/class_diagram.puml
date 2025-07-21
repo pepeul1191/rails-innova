@@ -11,13 +11,14 @@ class Slider {
   - updated: Datetime
 }
 
-class Activity {
+class NewsItem {
   - id: Integer
   - title: String
   - subtitle: String
   - content: String
   - imageUrl: String
   - url: String
+  - published: Datetime 
   - created: Datetime 
   - updated: Datetime
 }
