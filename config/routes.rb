@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   post "/mentors", to: "mentors#create", as: 'mentors_create'
   post "/mentors/:id", to: "mentors#update", as: 'mentors_update'
   post '/mentors/:mentor_id/specialisms', to: 'mentors#update_specialisms', as: 'update_mentor_specialisms'
+  get "/mentors/:id/calendar", to: "mentors#calendar", as: 'mentors_calendar'
+  get "/mentors/:id/conversation", to: "mentors#conversation", as: 'mentors_conversation'
   resources :sliders
   get "/sliders", to: "sliders#index", as: 'sliders_index'
   get "/sliders/:id/delete", to: "sliders#delete", as: 'sliders_delete'

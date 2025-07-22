@@ -166,4 +166,12 @@ class MentorsController < ApplicationController
   def new
     @link = '/mentors'
   end
+
+  def calendar
+    @link = '/mentors'
+  end
+
+  def conversation
+
+  end
 end
