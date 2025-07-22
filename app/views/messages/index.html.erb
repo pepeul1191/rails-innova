@@ -1,0 +1,291 @@
+<% content_for :head do %>
+  <style>
+    /* Contenedor principal del chat (sin interferir con otras páginas) */
+    .chat-container {
+      display: flex;
+      height: calc(100vh - 56px); /* Ajuste al navbar superior */
+      overflow: hidden;
+    }
+
+    /* Panel de lista de conversaciones */
+    .conversations-list {
+      width: 30%;
+      max-width: 30%;
+      border-right: 1px solid #ddd;
+      background-color: #f9f9fb;
+      overflow-y: auto;
+      padding: 10px 0;
+    }
+
+    .conversation-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .conversation-item:hover {
+      background-color: #e9ecef;
+    }
+
+    .conversation-item.active {
+      background-color: #d4edff;
+      font-weight: bold;
+    }
+
+    .conv-sender {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    .conv-preview {
+      font-size: 0.85rem;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .conv-time {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: right;
+    }
+
+    /* Panel de chat (mensajes + input) */
+    .chat-area {
+      width: 70%;
+      max-width: 70%;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-color: #fff;
+    }
+
+    .message-group {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+      margin-bottom: 10px;
+    }
+
+    .message-group.user {
+      align-items: flex-end;
+    }
+
+    .message-group.ai {
+      align-items: flex-start;
+    }
+
+    .sender-name {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .message {
+      padding: 10px 14px;
+      border-radius: 12px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .user .message {
+      background-color: #0b66d0;
+      color: white;
+    }
+
+    .ai .message {
+      background-color: #e5e5ea;
+      color: black;
+    }
+
+    .message-time {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 4px;
+      width: 100%;
+      text-align: right;
+    }
+
+    /* Input fijo abajo */
+    .chat-input-area {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      padding: 10px 20px 20px;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+      z-index: 10;
+      gap: 8px;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    #message-input:focus {
+      border-color: #0b66d0;
+      box-shadow: 0 0 0 3px rgba(11, 102, 208, 0.2);
+    }
+
+    #send-button {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0b66d0;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #send-button:hover {
+      background-color: #0a59b8;
+    }
+  </style>
+<% end %>
+
+<div class="mt-4">
+  <h1>
+    <i class="fa fa-envelope me-2"></i> Bandeja de Mensajes 
+  </h1>
+  <hr>
+</div>
+
+<!-- Contenedor principal del chat -->
+<div class="chat-container">
+  <!-- Lista de conversaciones (30%) -->
+  <div class="conversations-list" id="conversations-list">
+    <!-- Conversación activa -->
+    <div class="conversation-item active" data-chat="1">
+      <div class="conv-sender">Asistente AI</div>
+      <div class="conv-preview">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+      <div class="conv-time">14:32</div>
+    </div>
+
+    <!-- Otras conversaciones (puedes iterar desde Ruby si vienen de BD) -->
+    <div class="conversation-item" data-chat="2">
+      <div class="conv-sender">Proyecto Innovador</div>
+      <div class="conv-preview">¿Ya revisaste el informe semanal?</div>
+      <div class="conv-time">10:15</div>
+    </div>
+
+    <div class="conversation-item" data-chat="3">
+      <div class="conv-sender">Mentor - Carlos Pérez</div>
+      <div class="conv-preview">Recuerda la reunión de hoy a las 3pm.</div>
+      <div class="conv-time">Ayer</div>
+    </div>
+  </div>
+
+  <!-- Área de chat (70%) -->
+  <div class="chat-area">
+    <!-- Mensajes -->
+    <div class="chat-messages" id="chat-messages">
+      <div class="message-group ai">
+        <div class="sender-name">Asistente AI</div>
+        <div class="message">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+        <div class="message-time">14:32</div>
+      </div>
+    </div>
+
+    <!-- Input fijo -->
+    <div class="chat-input-area">
+      <input type="text" id="message-input" placeholder="Escribe un mensaje..." />
+      <button id="send-button">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatMessages = document.getElementById("chat-messages");
+    const messageInput = document.getElementById("message-input");
+    const sendButton = document.getElementById("send-button");
+
+    // Cambiar conversación al hacer clic
+    document.querySelectorAll(".conversation-item").forEach(item => {
+      item.addEventListener("click", function () {
+        document.querySelector(".conversation-item.active")?.classList.remove("active");
+        this.classList.add("active");
+
+        // Aquí podrías cargar los mensajes reales de esta conversación
+        chatMessages.innerHTML = "";
+        addMessage("Este es el inicio de la conversación seleccionada.", "ai", "Asistente AI");
+      });
+    });
+
+    // Función para agregar mensajes
+    function addMessage(text, sender, name) {
+      const messageGroup = document.createElement("div");
+      messageGroup.className = `message-group ${sender}`;
+
+      const senderName = document.createElement("div");
+      senderName.className = "sender-name";
+      senderName.textContent = name;
+
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "message";
+      messageDiv.textContent = text;
+
+      const timeDiv = document.createElement("div");
+      timeDiv.className = "message-time";
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      timeDialog.textContent = `${hours}:${minutes}`;
+
+      messageGroup.appendChild(senderName);
+      messageGroup.appendChild(messageDiv);
+      messageGroup.appendChild(timeDiv);
+      chatMessages.appendChild(messageGroup);
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Enviar mensaje
+    function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      const activeChat = document.querySelector(".conversation-item.active");
+      const userName = "<%= session[:user]['name'] %>".split(' ')[0] || "Tú";
+
+      addMessage(text, "user", "Tú");
+      messageInput.value = "";
+
+      // Simular respuesta
+      setTimeout(() => {
+        const assistantName = activeChat ? activeChat.querySelector(".conv-sender").textContent : "Asistente";
+        addMessage("Gracias por tu mensaje. Estoy aquí para ayudarte.", "ai", assistantName);
+      }, 600);
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+    messageInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+  });
+</script>
