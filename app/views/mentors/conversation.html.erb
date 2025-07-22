@@ -1,0 +1,198 @@
+<% content_for :head do %>
+  <style>
+    .chat-layout {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 56px); /* Ajusta según altura del navbar */
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-color: #fff;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background-color: #0b66d0;
+      color: white;
+    }
+
+    .ai-message {
+      align-self: flex-start;
+      background-color: #e5e5ea;
+      color: black;
+    }
+
+    .chat-input-area {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      padding: 25px 20px 20px;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+      z-index: 10;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    #send-button {
+      margin-left: 10px;
+      padding: 10px 20px;
+      background-color: #0b66d0;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #send-button:hover {
+      background-color: #0a59b8;
+    }
+
+    .message {
+      padding: 10px 14px;
+      border-radius: 12px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      background-color: #0b66d0;
+      color: white;
+    }
+
+    .ai-message {
+      background-color: #e5e5ea;
+      color: black;
+    }
+  </style>
+<% end %>
+
+<% content_for :script do %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const chatMessages = document.getElementById("chat-messages");
+      const messageInput = document.getElementById("message-input");
+      const sendButton = document.getElementById("send-button");
+
+      function addMessage(text, sender, name) {
+        const chatMessages = document.getElementById("chat-messages");
+
+        // Crear contenedor del mensaje
+        const messageGroup = document.createElement("div");
+        messageGroup.style.display = "flex";
+        messageGroup.style.flexDirection = "column";
+        messageGroup.style.alignItems = sender === "user" ? "flex-end" : "flex-start";
+        messageGroup.style.maxWidth = "80%";
+        messageGroup.style.marginBottom = "10px";
+
+        // Remitente (nombre)
+        const senderName = document.createElement("div");
+        senderName.style.fontWeight = "bold";
+        senderName.style.color = "#555";
+        senderName.style.fontSize = "0.85rem";
+        senderName.style.marginBottom = "4px";
+        senderName.textContent = name;
+
+        // Contenido del mensaje
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.style.padding = "10px 14px";
+        messageDiv.style.borderRadius = "12px";
+        messageDiv.style.maxWidth = "100%";
+        messageDiv.style.wordWrap = "break-word";
+        messageDiv.textContent = text;
+
+        // Hora (alineada a la derecha dentro del grupo)
+        const timeDiv = document.createElement("div");
+        timeDiv.style.fontSize = "0.75rem";
+        timeDiv.style.color = "#999";
+        timeDiv.style.marginTop = "4px";
+        timeDiv.style.width = "100%";
+        timeDiv.style.textAlign = sender === "user" ? "right" : "left";
+
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        timeDiv.textContent = `${hours}:${minutes}`;
+
+        // Armar el grupo
+        messageGroup.appendChild(senderName);
+        messageGroup.appendChild(messageDiv);
+        messageGroup.appendChild(timeDiv);
+
+        // Añadir al chat
+        chatMessages.appendChild(messageGroup);
+
+        // Scroll automático
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text) return;
+
+        addMessage(text, "user", "Tú"); // Remitente: Tú
+
+        // Simular respuesta del sistema
+        setTimeout(() => {
+          addMessage("Gracias por tu mensaje. Estoy aquí para ayudarte.", "ai", "Asistente");
+        }, 600);
+
+        messageInput.value = "";
+      }
+
+      sendButton.addEventListener("click", sendMessage);
+      messageInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+      });
+    });
+  </script>
+<% end %>
+
+<div class="mt-4">
+  <h1>
+    <a href="/mentors">
+      <i class="fa fa-bullseye me-2"></i> Mentores Disponibles
+    </a> / Conversación con el Mentor
+  </h1>
+  <hr>
+</div>
+
+<div class="chat-layout">
+  <!-- Área de mensajes -->
+  <div class="chat-messages" id="chat-messages">
+    <!-- Aquí se agregarán más mensajes -->
+  </div>
+
+  <!-- Input fijo abajo -->
+  <div class="chat-input-area">
+    <input type="text" id="message-input" class="form-control" placeholder="Escribe un mensaje..." />
+    <button id="send-button" class="btn">
+      <i class="fa fa-paper-plane"></i> Enviar
+    </button>
+  </div>
+</div>

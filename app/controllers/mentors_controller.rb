@@ -172,6 +172,6 @@ class MentorsController < ApplicationController
   end
 
   def conversation
-
+    @link = '/mentors'
   end
 end
