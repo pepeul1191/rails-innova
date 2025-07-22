@@ -61,7 +61,7 @@ class SessionController < ApplicationController
     auth = request.env['omniauth.auth']
     if auth && auth.info
       # Almacenar información del usuario en la sesión
-      if auth.info.email.include?("aloe")
+      if auth.info.email.end_with?("@unmsm.edu.pe", "@aloe.ulima.edu.pe")
         session[:user_type] = 'student'
       else
         session[:user_type] = 'worker'

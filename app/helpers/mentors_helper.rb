@@ -1,6 +1,7 @@
 module MentorsHelper
-  def self.get_mentors_with_specialisms
-    sql = <<~SQL
+  def self.get_mentors_with_specialisms(name = nil, specialism_id = nil)
+     # Consulta base
+      sql = <<~SQL
       SELECT 
         M.id, 
         M.full_name, 
@@ -12,11 +13,34 @@ module MentorsHelper
       FROM mentors_specialisms MS 
       INNER JOIN mentors M ON MS.mentor_id = M.id
       INNER JOIN specialisms S ON MS.specialism_id = S.id
-      ORDER BY M.id, S.name
+      WHERE 1=1
     SQL
 
-    # Ejecuta el query y convierte a array de hashes
-    results = ActiveRecord::Base.connection.select_all(sql).to_a
+    conditions = []
+    values = []
+
+    if name.present?
+      conditions << "LOWER(M.full_name) LIKE ?"
+      values << "%#{name.downcase}%"
+    end
+
+    if specialism_id.present?
+      conditions << "S.id = ?"
+      values << specialism_id.to_i  # Asegúrate de que sea entero
+    end
+
+    if conditions.any?
+      sql += " AND #{conditions.join(' AND ')}"
+    end
+
+    sql += " ORDER BY M.full_name, S.name"
+
+    # === ¡CORRECCIÓN CLAVE AQUÍ! ===
+    # sanitize_sql_array devuelve el SQL con las ? reemplazadas
+    final_sql = ActiveRecord::Base.send(:sanitize_sql_array, [sql, *values])
+
+    # Ejecutar con el SQL ya interpolado
+    results = ActiveRecord::Base.connection.exec_query(final_sql)
 
     # Agrupa por mentor
     results.group_by { |row| row['id'] }.map do |mentor_id, rows|

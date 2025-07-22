@@ -150,7 +150,7 @@
       </div>
       <ul class="nav flex-column mt-3">
         <li class="nav-item">
-          <a class="nav-link <%= 'active' if @link == '' %>" href="#">
+          <a class="nav-link <%= 'active' if @link == '' %>" href="/">
             <i class="fa fa-dashboard me-2"></i>
             Dashboard
           </a>
@@ -195,6 +195,31 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
+              <i class="fa fa-envelope me-2"></i>
+              Mensajes
+            </a>
+          </li>
+        <% elsif session[:user_type] == "student" %>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if @link == '/calendars' %>" href="/calendars">
+              <i class="fa fa-calendar me-2"></i>
+              Calendario
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if @link == '/projects' %>"  href="/projects">
+              <i class="fa fa-line-chart me-2"></i>
+              Mis Proyectos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if @link == '/mentors' %>" href="/mentors">
+              <i class="fa fa-bullseye me-2"></i>
+              Mentores
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if @link == '/messages' %>"  href="/messages">
               <i class="fa fa-envelope me-2"></i>
               Mensajes
             </a>

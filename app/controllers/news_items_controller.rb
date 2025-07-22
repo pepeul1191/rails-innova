@@ -139,6 +139,7 @@ class NewsItemsController < ApplicationController
       title: title,
       subtitle: subtitle,
       image_url: image_url.presence || 'uploads/news-items/default.jpg',
+      url: "#{params[:id]}-#{title.parameterize}",
       published: published,
       content: content,
     )
