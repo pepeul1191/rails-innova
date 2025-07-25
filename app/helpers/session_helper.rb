@@ -30,6 +30,7 @@ module SessionHelper
         answer[:body][:email] = tmp['email']
 
         # Petición al servicio de archivos
+        
         url_files = ENV['URL_FILES_SERVICE']
         x_auth_files = ENV['X_AUTH_FILES_SERVICE']
 
@@ -51,7 +52,7 @@ module SessionHelper
 
         if files_response.code == 200
           tmp1 = JSON.parse(files_response.body)
-          answer[:body][:files_token] = tmp1['token']
+          token = tmp1['token']
         else
           tmp1 = JSON.parse(files_response.body)
           answer = {
@@ -101,5 +102,38 @@ module SessionHelper
     end
 
     answer
+  end
+
+  def self.chat_token(google_user)
+    url_chat = ENV['URL_CHAT_SERVICE']
+    x_auth_chat = ENV['X_AUTH_CHAT_SERVICE']
+    
+    response = HTTParty.post(
+      "#{url_chat}api/v1/auth/generate-token",
+      body: {
+        user_id: google_user.uid,
+        username: google_user.info.name,
+        email: google_user.info.email,
+        system_id: 1,
+      }.to_json,
+      headers: {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json',
+        'X-Auth-Trigger' => x_auth_chat
+      }
+    )
+    #puts 'chat_token'
+    #puts response
+
+    if response.code == 200
+      tmp1 = JSON.parse(response.body)
+      token = tmp1['token']
+    else
+      tmp1 = JSON.parse(response.body)
+      puts tmp1
+      token = nil
+    end
+    
+    token
   end
 end

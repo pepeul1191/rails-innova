@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   get "/calendars", to: "calendars#index", as: 'calendars_index'
   resources :messages
   get "/messages", to: "messages#index", as: 'messages_index'
+  resources :projects
+  get "/projects", to: "projects#index", as: 'projects_index'
   resources :sliders
   get "/sliders", to: "sliders#index", as: 'sliders_index'
   get "/sliders/:id/delete", to: "sliders#delete", as: 'sliders_delete'

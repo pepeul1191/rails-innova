@@ -73,7 +73,10 @@ class SessionController < ApplicationController
         provider: auth.provider,
         image: auth.info.image,
         uid: auth.uid,
-        access_token: auth.credentials.token # Store access token for logout
+      }
+      session[:tokens] = {
+        access: auth.credentials.token, # Store access token for logout
+        chat: SessionHelper.chat_token(auth)
       }
       redirect_to root_path, notice: "Inicio de sesión con Google exitoso"
     else
@@ -93,9 +96,7 @@ class SessionController < ApplicationController
 
   def tokens
     if session[:tokens].present?
-      render json: {
-        tokens: session[:tokens]
-      }, status: :ok
+      render json: session[:tokens], status: :ok
     else
       render json: {
         error: "No se encontraron tokens",
