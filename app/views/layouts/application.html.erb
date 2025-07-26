@@ -135,7 +135,9 @@
       const URLS = {
         BASE: "<%= Rails.application.credentials.BASE_URL || ENV['BASE_URL'] %>",
         STATIC: "<%= Rails.application.credentials.BASE_URL || ENV['STATIC_URL'] %>",
-        FILES_SERVICE: "<%= Rails.application.credentials.URL_FILES_SERVICE || ENV['URL_FILES_SERVICE'] %>"
+        FILES_SERVICE: "<%= Rails.application.credentials.URL_FILES_SERVICE || ENV['URL_FILES_SERVICE'] %>",
+        CHAT_SERVICE: "<%= Rails.application.credentials.URL_CHAT_SERVICE || ENV['URL_CHAT_SERVICE'] %>",
+        CHAT_WS_SERVICE: "<%= (Rails.application.credentials.URL_CHAT_SERVICE || ENV['URL_CHAT_SERVICE']).split('//')[1] %>"
       };
     </script>
 

@@ -5,4 +5,8 @@ class MessagesController < ApplicationController
   def index
     @link = '/messages'
   end
+
+  def recipients
+    render json: Mentor.all
+  end
 end

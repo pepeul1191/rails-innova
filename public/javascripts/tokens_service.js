@@ -3,7 +3,6 @@ const fetchTokensIfMissing = () => {
   const hasFilesToken = localStorage.getItem('jwtFilesToken');
   const hasAccessToken = localStorage.getItem('jwtAccessToken');
   const hasChatToken = localStorage.getItem('jwtChatToken');
-  console.log('1 ++++++++++++++++++++++++++++++++++++++');
 
   // Si ambos tokens ya están guardados, no hacer nada
   if (hasFilesToken && hasAccessToken && hasChatToken) {
@@ -12,10 +11,10 @@ const fetchTokensIfMissing = () => {
   }
 
   // Si alguno falta, hacer el GET a /tokens
-  return axios.get('/tokens')
+  return axios.get('/session')
     .then(response => {
-      const tokens = response.data;
-      console.log(tokens)
+      const tokens = response.data.tokens;
+      //console.log(tokens)
 
       // Guardar ambos tokens en localStorage
       if (tokens.access) {
@@ -27,7 +26,19 @@ const fetchTokensIfMissing = () => {
       }
 
       if (tokens.chat) {
-        localStorage.setItem('jwtChatToken', tokens.files);
+        localStorage.setItem('jwtChatToken', tokens.chat);
+      }
+
+      const user = response.data.user;
+      //console.log(user)
+
+      // Guardar ambos tokens en localStorage
+      if (user) {
+        if (user.uid) {
+          user.id = user.uid;
+          delete user.uid;
+        }
+        localStorage.setItem('user_info', JSON.stringify(user));
       }
 
       console.log('Tokens guardados en localStorage.');

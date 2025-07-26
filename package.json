@@ -16,8 +16,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "dev": "concurrently --names \"Rails,Svelte\" -c \"bgRed.bold,bgGreen\" \"rails s\" \"npm run watch\"",
-    "dev-all": "concurrently --names \"Rails,Svelte,Accesos,Files\" -c \"bgRed.bold,bgGreen,bgBlue,bgWhite.bold\" \"rails s\" \"npm run watch\" \"bash -c 'cd /home/pepe/Documentos/go/accesos && go run main.go 2>/dev/null'\" \"bash -c 'cd /home/pepe/Documentos/ruby/files && npm run dev 2>/dev/null'\" \"npm run dev\""
+    "rails": "rails s",
+    "svelte": "npm run watch",
+    "accesos": "bash -c 'cd /home/pepe/Documentos/go/accesos && go run main.go 2>/dev/null'",
+    "files": "bash -c 'cd /home/pepe/Documentos/ruby/files && npm run dev 2>/dev/null'",
+    "chat2": "bash -c 'cd /home/pepe/Documentos/python/tornado_ws && source venv/bin/activate && export DEBUG=true && python3 server.py'",
+    "chat": "bash -c 'cd /home/pepe/Documentos/python/tornado_ws",
+    "dev": "concurrently --names \"Rails,Svelte\" -c \"bgRed.bold,bgGreen\" \"npm run rails\" \"npm run svelte\"",
+    "dev-all": "concurrently --names \"Rails,Svelte,Accesos,Files,Chat\" -c \"bgRed.bold,bgGreen,bgBlue,bgWhite.bold,bgYellow.bold\" \"npm run rails\" \"npm run svelte\" \"npm run accesos\" \"npm run files\" \"npm run chat\""
   },
   "keywords": [],
   "author": "",

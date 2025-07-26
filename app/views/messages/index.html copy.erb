@@ -1,0 +1,131 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag '/stylesheets/messages' %>
+<% end %>
+
+<% content_for :script do %>
+  <%= javascript_include_tag '/javascripts/chat_plugin' %>
+<% end %>
+
+<div class="mt-4">
+  <h1>
+    <i class="fa fa-envelope me-2"></i> Bandeja de Mensajes 
+  </h1>
+  <hr>
+</div>
+
+<!-- Contenedor principal del chat -->
+<div class="chat-container">
+  <!-- Lista de conversaciones (30%) -->
+  <div class="conversations-list" id="conversations-list">
+    <!-- Conversación activa -->
+    <div class="conversation-item active" data-chat="1">
+      <div class="conv-sender">Asistente AI</div>
+      <div class="conv-preview">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+      <div class="conv-time">14:32</div>
+    </div>
+
+    <!-- Otras conversaciones (puedes iterar desde Ruby si vienen de BD) -->
+    <div class="conversation-item" data-chat="2">
+      <div class="conv-sender">Proyecto Innovador</div>
+      <div class="conv-preview">¿Ya revisaste el informe semanal?</div>
+      <div class="conv-time">10:15</div>
+    </div>
+
+    <div class="conversation-item" data-chat="3">
+      <div class="conv-sender">Mentor - Carlos Pérez</div>
+      <div class="conv-preview">Recuerda la reunión de hoy a las 3pm.</div>
+      <div class="conv-time">Ayer</div>
+    </div>
+  </div>
+
+  <!-- Área de chat (70%) -->
+  <div class="chat-area">
+    <!-- Mensajes -->
+    <div class="chat-messages" id="chat-messages">
+      <div class="message-group ai">
+        <div class="sender-name">Asistente AI</div>
+        <div class="message">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+        <div class="message-time">14:32</div>
+      </div>
+    </div>
+
+    <!-- Input fijo -->
+    <div class="chat-input-area">
+      <input type="text" id="message-input" placeholder="Escribe un mensaje..." />
+      <button id="send-button">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatMessages = document.getElementById("chat-messages");
+    const messageInput = document.getElementById("message-input");
+    const sendButton = document.getElementById("send-button");
+
+    // Cambiar conversación al hacer clic
+    document.querySelectorAll(".conversation-item").forEach(item => {
+      item.addEventListener("click", function () {
+        document.querySelector(".conversation-item.active")?.classList.remove("active");
+        this.classList.add("active");
+
+        // Aquí podrías cargar los mensajes reales de esta conversación
+        chatMessages.innerHTML = "";
+        addMessage("Este es el inicio de la conversación seleccionada.", "ai", "Asistente AI");
+      });
+    });
+
+    // Función para agregar mensajes
+    function addMessage(text, sender, name) {
+      const messageGroup = document.createElement("div");
+      messageGroup.className = `message-group ${sender}`;
+
+      const senderName = document.createElement("div");
+      senderName.className = "sender-name";
+      senderName.textContent = name;
+
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "message";
+      messageDiv.textContent = text;
+
+      const timeDiv = document.createElement("div");
+      timeDiv.className = "message-time";
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      timeDialog.textContent = `${hours}:${minutes}`;
+
+      messageGroup.appendChild(senderName);
+      messageGroup.appendChild(messageDiv);
+      messageGroup.appendChild(timeDiv);
+      chatMessages.appendChild(messageGroup);
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Enviar mensaje
+    function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      const activeChat = document.querySelector(".conversation-item.active");
+      const userName = "<%= session[:user]['name'] %>".split(' ')[0] || "Tú";
+
+      addMessage(text, "user", "Tú");
+      messageInput.value = "";
+
+      // Simular respuesta
+      setTimeout(() => {
+        const assistantName = activeChat ? activeChat.querySelector(".conv-sender").textContent : "Asistente";
+        addMessage("Gracias por tu mensaje. Estoy aquí para ayudarte.", "ai", assistantName);
+      }, 600);
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+    messageInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+  });
+</script>

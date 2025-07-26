@@ -56,6 +56,10 @@ Generar UMLs:
     $ chmod +x scripts/render_puml.sh
     $ scripts/render_puml.sh
 
+### Arrancar todos los servicios
+
+    $ source /home/pepe/Documentos/python/tornado_ws/venv/bin/activate
+
 ---
 
 ## Documentación

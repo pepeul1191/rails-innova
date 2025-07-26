@@ -1,16 +1,19 @@
 class ChatPlugin {
   constructor(options = {}) {
+    console.log(options)
     this.ws = null;
     this.receiver = null;
     this.conversationId = null;
     this.tryREST = options.tryREST ?? true;    
     this.socketUrl = options.socketUrl ?? null;
+    this.receivers = options.receivers ?? {fetchURL: null, keyId: 'id', keyName: 'name', keyImage: 'image', base_url: ''};
     this.userInfo = options.userInfo;
     this.receiverIdDOM = document.getElementById(options.receiverIdDOM ??  "receiverName");
     this.receiverListDOM = document.getElementById(options.receiverListDOM ?? "receiverList");
     this.btnSendDOM = document.getElementById(options.btnSendDOM ?? "btnSend");
     this.inputMessageDOM = document.getElementById(options.inputMessageDOM ?? 'inputMessage');
     this.messagesListDOM = document.getElementById(options.messagesListDOM ?? 'messages');
+    this.jwtChatToken = options.jwtChatToken ?? null;
   }
 
   init() {
@@ -34,34 +37,37 @@ class ChatPlugin {
   }
 
   loadReceivers() {
-    const xhr = new XMLHttpRequest();
-    const userInfo = JSON.parse(localStorage.getItem('user_info'));
-    xhr.open('GET', `http://localhost:7000/api/v1/users/${userInfo.user_id}/recipients`, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Accept', 'application/json');
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          console.log('Respuesta completa:', response);
-          this.showReceivers(response);
-        } else {
-          alert('Error al actualizar el usuario');
+    if(this.receivers.fetchURL){
+      const xhr = new XMLHttpRequest();
+      const userInfo = JSON.parse(localStorage.getItem('user_info'));
+      xhr.open('GET', this.receivers.fetchURL, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            //console.log('Respuesta completa:', response);
+            this.showReceivers(response);
+          } else {
+            alert('Error al actualizar el usuario');
+          }
         }
-      }
-    };
-    xhr.send();
+      };
+      xhr.send();
+    }else{
+      console.error('No se listarán los receivers porque no hay URL');
+    }
   }
 
-  receiverClick(event, item) {
-    this.receiverIdDOM.innerHTML = item.name;
-    this.receiver = item;
- 
+  receiverClick(event, receiver) {
+    this.receiverIdDOM.innerHTML = receiver[this.receivers.keyName];
+    this.receiver = receiver;
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify({
         type: 'load_conversation',
-        token: this.userInfo.token,
-        receiver_id: item.id
+        token: this.jwtChatToken,
+        receiver_id: receiver[this.receivers.keyId]
       }));
     }
   }
@@ -74,14 +80,24 @@ class ChatPlugin {
       localStorage.setItem('receivers', JSON.stringify(response));
 
       response.forEach(receiver => {
-        const li = document.createElement('li');
-        li.classList.add('item');
-        li.addEventListener('click', (e) => this.receiverClick(e, receiver));
-        li.innerHTML = `
-          <img src="${receiver.image_url}" height=20 width=20 />
-          <strong>${receiver.id} - ${receiver.name}</strong>
+        const div = document.createElement('div');
+        div.classList.add('conversation-item');
+        div.dataset.chat = receiver[this.receivers.keyId];
+      
+        div.addEventListener('click', (e) => this.receiverClick(e, receiver));
+      
+        div.innerHTML = `
+          <div class="conv-img">
+            <img height=100 width=100 src="${this.receivers.imageBaseURL}${receiver[this.receivers.keyImage]}" alt="${receiver[this.receivers.keyName]}" />
+          </div>
+          <div class="conv-content">
+            <div class="conv-sender">${receiver[this.receivers.keyName]}</div>
+            <div class="conv-preview">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+            <div class="conv-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+          </div>
         `;
-        this.receiverListDOM.appendChild(li);
+      
+        this.receiverListDOM.appendChild(div);
       });
     }
     // Casos de objeto simple o valor simple omitidos por brevedad
@@ -155,15 +171,31 @@ class ChatPlugin {
   }
 
   _renderMessage(ul, msg, receivers) {
-    const li = document.createElement('li');
-    if (msg.sender_id == this.userInfo.user_id) {
-      li.innerHTML = `Yo dije: <br><small class="created">${msg.created}</small><br>${msg.content}`;
-      li.classList.add('float-right');
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('message-group');
+    
+    const isSelf = msg.sender_id == this.userInfo.id;
+  
+    if (isSelf) {
+      wrapper.classList.add('text-end', 'ms-auto', 'me-2'); // Bootstrap alignment
+      wrapper.innerHTML = `
+        <div class="sender-name">Yo</div>
+        <div class="message bg-primary text-white d-inline-block rounded p-2 my-1">${msg.content}</div>
+        <div class="message-time text-muted small">${msg.created}</div>
+      `;
     } else {
       const match = receivers.find(r => String(r.id) === String(msg.sender_id));
-      li.innerHTML = `${match ? match.name : 'Unknow'} dijo: <br><small class="created">${msg.created}</small><br>${msg.content}`;
+      const name = match ? match.name : 'Unknown';
+  
+      wrapper.classList.add('text-start', 'me-auto', 'ms-2');
+      wrapper.innerHTML = `
+        <div class="sender-name">${name}</div>
+        <div class="message bg-light d-inline-block rounded p-2 my-1">${msg.content}</div>
+        <div class="message-time text-muted small">${msg.created}</div>
+      `;
     }
-    ul.appendChild(li);
+  
+    ul.appendChild(wrapper);
   }
 
   connectWebSocket() {
