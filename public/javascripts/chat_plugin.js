@@ -6,7 +6,7 @@ class ChatPlugin {
     this.conversationId = null;
     this.tryREST = options.tryREST ?? true;    
     this.socketUrl = options.socketUrl ?? null;
-    this.receivers = options.receivers ?? {fetchURL: null, keyId: 'id', keyName: 'name', keyImage: 'image', base_url: ''};
+    this.receivers = options.receivers ?? {fetchURL: null, keyId: 'recipent_id', keyName: 'name', keyImage: 'image', base_url: ''};
     this.userInfo = options.userInfo;
     this.receiverIdDOM = document.getElementById(options.receiverIdDOM ??  "receiverName");
     this.receiverListDOM = document.getElementById(options.receiverListDOM ?? "receiverList");
@@ -63,11 +63,12 @@ class ChatPlugin {
   receiverClick(event, receiver) {
     this.receiverIdDOM.innerHTML = receiver[this.receivers.keyName];
     this.receiver = receiver;
+    console.log(this.receiver)
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify({
         type: 'load_conversation',
         token: this.jwtChatToken,
-        receiver_id: receiver[this.receivers.keyId]
+        receiver_id: this.receiver[this.receivers.keyId]
       }));
     }
   }
@@ -86,14 +87,21 @@ class ChatPlugin {
       
         div.addEventListener('click', (e) => this.receiverClick(e, receiver));
       
+        var imageUrl;
+        if (receiver[this.receivers.keyImage].includes("googleusercontent")) {
+          imageUrl = receiver[this.receivers.keyImage];
+        }else{
+          imageUrl = `${this.receivers.imageBaseURL}${receiver[this.receivers.keyImage]}`;
+        }
+
         div.innerHTML = `
           <div class="conv-img">
-            <img height=100 width=100 src="${this.receivers.imageBaseURL}${receiver[this.receivers.keyImage]}" alt="${receiver[this.receivers.keyName]}" />
+            <img height=100 width=100 src="${imageUrl}" alt="${receiver[this.receivers.keyName]}" />
           </div>
           <div class="conv-content">
             <div class="conv-sender">${receiver[this.receivers.keyName]}</div>
-            <div class="conv-preview">¡Hola! ¿En qué puedo ayudarte hoy?</div>
-            <div class="conv-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            <div class="conv-preview">${receiver.last_message.content}</div>
+            <div class="conv-time">${receiver.last_message.created}</div>
           </div>
         `;
       
@@ -143,11 +151,11 @@ class ChatPlugin {
       }
       return alert('Primero debes conectar al chat!');
     }
-
+    
     this.ws.send(JSON.stringify({
       type: 'send_message',
-      token: userInfo.token,
-      receiver_id: this.receiver.id,
+      token: this.jwtChatToken,
+      receiver_id: this.receiver.recipent_id,
       conversation_id: this.conversationId,
       message
     }));
@@ -174,7 +182,7 @@ class ChatPlugin {
     const wrapper = document.createElement('div');
     wrapper.classList.add('message-group');
     
-    const isSelf = msg.sender_id == this.userInfo.id;
+    const isSelf = msg.sender_id == this.userInfo.uid;
   
     if (isSelf) {
       wrapper.classList.add('text-end', 'ms-auto', 'me-2'); // Bootstrap alignment
@@ -184,7 +192,7 @@ class ChatPlugin {
         <div class="message-time text-muted small">${msg.created}</div>
       `;
     } else {
-      const match = receivers.find(r => String(r.id) === String(msg.sender_id));
+      const match = receivers.find(r => String(r.recipent_id) === String(msg.sender_id));
       const name = match ? match.name : 'Unknown';
   
       wrapper.classList.add('text-start', 'me-auto', 'ms-2');

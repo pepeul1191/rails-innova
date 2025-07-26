@@ -61,10 +61,27 @@ class SessionController < ApplicationController
     auth = request.env['omniauth.auth']
     if auth && auth.info
       # Almacenar información del usuario en la sesión
+      
       if auth.info.email.end_with?("@unmsm.edu.pe", "@aloe.ulima.edu.pe")
         session[:user_type] = 'student'
+        student = Student.find_by(email: auth.info.email)
+        if !student
+          student = Student.new(
+            code: auth.info.email.split('@')[0], 
+            full_name: auth.info.name, 
+            google_id: auth.uid, 
+            email: auth.info.email, 
+            image_url: auth.info.image, 
+          )
+          student.save
+        end
       else
         session[:user_type] = 'worker'
+        mentor = Mentor.find_by(email: auth.info.email)
+        if !mentor.google_id
+          mentor.google_id = auth.uid
+          mentor.save
+        end
       end
 
       session[:user] = {

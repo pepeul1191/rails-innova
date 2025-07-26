@@ -34,10 +34,6 @@ const fetchTokensIfMissing = () => {
 
       // Guardar ambos tokens en localStorage
       if (user) {
-        if (user.uid) {
-          user.id = user.uid;
-          delete user.uid;
-        }
         localStorage.setItem('user_info', JSON.stringify(user));
       }
 

@@ -20,9 +20,9 @@
       inputMessageDOM: "message-input",
       messagesListDOM: "chat-messages",
       receivers: {
-        fetchURL: `${URLS.BASE}api/v1/messages/${userInfo.id}/recipients`,
-        keyId: 'id', 
-        keyName: 'full_name', 
+        fetchURL: `${URLS.BASE}api/v1/messages/recipients`,
+        keyId: 'recipent_id', 
+        keyName: 'name', 
         keyImage: 'image_url', 
         imageBaseURL: URLS.FILES_SERVICE
       },

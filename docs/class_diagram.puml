@@ -25,8 +25,20 @@ class NewsItem {
 
 class Mentor {
   - id: Integer
+  - code: Integer
   - fullName: String
   - charge: String
+  - email: String
+  - imageUrl: String
+  - created: Datetime 
+  - updated: Datetime
+}
+
+class Student {
+  - id: Integer
+  - code: Integer
+  - fullName: String
+  - googleId: String
   - email: String
   - imageUrl: String
   - created: Datetime 

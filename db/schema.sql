@@ -18,6 +18,7 @@
 CREATE TABLE `mentors` (
   `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(6) NOT NULL,
+  `google_id` varchar(30) DEFAULT NULL,
   `full_name` varchar(100) NOT NULL,
   `charge` varchar(60) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -115,6 +116,26 @@ CREATE TABLE `specialisms` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `students`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `students` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `google_id` varchar(60) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `image_url` varchar(100) DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping routines for database 'innova'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -144,5 +165,7 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20250721151921'),
   ('20250721154420'),
   ('20250721155111'),
-  ('20250721173018');
+  ('20250721173018'),
+  ('20250726035144'),
+  ('20250726041806');
 UNLOCK TABLES;
